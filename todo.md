@@ -1,0 +1,16 @@
+# todo
+- [x] Create task list;
+- [ ] Create tempalate for final project;
+- [ ] Make alpha version of front-end part as html files;
+- [ ] Create schema and tables proper to project task;
+- [ ] Fill tables by test values;
+- [ ] Create etities;
+- [ ] Write DAO; 
+- [ ] Create model;
+- [ ] Write tests;
+- [ ] Create controller;
+- [ ] Turn html pages into jsp;
+- [ ] Separate common parts of jsp files;
+- [ ] Unite controller and jsp pages;
+- [ ] Add jstl to jsp pages;
+- [ ] Make all beautiful;
