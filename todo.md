@@ -1,11 +1,11 @@
 # todo
 - [x] Create task list;
-- [ ] Create tempalate for final project;
+- [x] Create tempalate for final project;
+- [x] Create schema and tables proper to project task;
+- [x] Fill tables by test values;
+- [x] Create etities;
+- [x] Write DAO; 
 - [ ] Make alpha version of front-end part as html files;
-- [ ] Create schema and tables proper to project task;
-- [ ] Fill tables by test values;
-- [ ] Create etities;
-- [ ] Write DAO; 
 - [ ] Create model;
 - [ ] Write tests;
 - [ ] Create controller;

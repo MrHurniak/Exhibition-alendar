@@ -1,6 +1,9 @@
 package ua.expo.model.entity;
 
-public class Exposition {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Exposition implements Serializable {
     private int id;
     private int price;
     private int ticketsCount;
@@ -82,4 +85,19 @@ public class Exposition {
     }
 
     //todo hashcode and equals
+
+
+    @Override
+    public String toString() {
+        return "Exposition{" +
+                "id=" + id +
+                ", price=" + price +
+                ", ticketsCount=" + ticketsCount +
+                ", theme='" + theme + '\'' +
+                ", shortDescription='" + shortDescription + '\'' +
+                ", fullDescription='" + fullDescription + '\'' +
+                ", hall=" + hall +
+                '}';
+    }
+
 }

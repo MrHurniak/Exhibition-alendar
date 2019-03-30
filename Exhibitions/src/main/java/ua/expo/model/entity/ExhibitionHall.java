@@ -1,6 +1,9 @@
 package ua.expo.model.entity;
 
-public class ExhibitionHall {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class ExhibitionHall implements Serializable {
     private int id;
     private String name;
     private String information;
@@ -36,6 +39,16 @@ public class ExhibitionHall {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ExhibitionHall{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", information='" + information + '\'' +
+                '}';
     }
 
 }
