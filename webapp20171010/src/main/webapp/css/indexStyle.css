@@ -1,0 +1,9 @@
+#map {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.loginirovanie {
+    height: 45px;
+}
