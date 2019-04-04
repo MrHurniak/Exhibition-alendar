@@ -11,7 +11,7 @@ public class AdminPage implements Command{
         if(CommandUtil.isAdmin(request)) {
             return "/WEB-INF/admin/adminPage.jsp";
         } else {
-            return "/WEB-INF/error.jsp";
+            return "/WEB-INF/admin/forbidden.jsp";
         }
     }
 }

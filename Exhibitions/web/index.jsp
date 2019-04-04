@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
 <head>
@@ -5,6 +6,8 @@
     <title>Calendar of exhibitions</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png" sizes="96x96">
     <jsp:include page="bootstrap.jsp"/>
+    <%--<fmt:setLocale value = "ua_UA"/>--%>
+    <fmt:setBundle var="link" basename="messages" scope="session" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/indexStyle.css">
 </head>

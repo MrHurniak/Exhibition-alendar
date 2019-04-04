@@ -20,13 +20,13 @@ public class JDBCDaoFactory extends DaoFactory {
     private UserMapper userMapper;
     private ExpositionMapper expositionMapper;
     private ExhibitionHallMapper hallMapper;
-    private Properties properties;
+//    private Properties properties;
 
     public JDBCDaoFactory(){
         userMapper = new UserMapper();
         hallMapper = new ExhibitionHallMapper();
         expositionMapper = new ExpositionMapper(hallMapper);
-        properties = new Properties();
+//        properties = new Properties();
 
     }
 
@@ -70,14 +70,14 @@ public class JDBCDaoFactory extends DaoFactory {
         return new JDBCTicketDao(getConnection(), userMapper, expositionMapper);
     }
 
-    private String getDBinfo(String key){
-        String propertiesFile = "src/main/resources/DBinfo";
-        try(InputStream input = new FileInputStream(propertiesFile)){
-            properties.load(input);
-            return properties.getProperty(key);
-        } catch (IOException e){
-            //todo log
-            throw new RuntimeException(e);
-        }
-    }
+//    private String getDBinfo(String key){
+//        String propertiesFile = "src/main/resources/DBinfo";
+//        try(InputStream input = new FileInputStream(propertiesFile)){
+//            properties.load(input);
+//            return properties.getProperty(key);
+//        } catch (IOException e){
+//            //todo log
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

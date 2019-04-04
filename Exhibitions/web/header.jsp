@@ -1,20 +1,29 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%--<fmt:setLocale value = "ua_UA"/>--%>
+<fmt:setBundle var="link" basename="messages" scope="session" />
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="justify-content: space-between;">
     <a class="navbar-brand " href="${pageContext.request.contextPath}/index.jsp">
         <img src="${pageContext.request.contextPath}/img/paint-board-and-brush.svg" class="mx-5" alt="Logo" style="width:40px;">
-        Logo of project
+        <fmt:message key="header.logo" bundle="${link}"/>
     </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/index.jsp#map" class="nav-link">About us</a>
+                <a href="${pageContext.request.contextPath}/index.jsp#map" class="nav-link">
+                    <fmt:message key="header.about.us" bundle="${link}"/>
+                </a>
             </li>
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/app/exposition" class="nav-link">Exhibition</a>
+                <a href="${pageContext.request.contextPath}/app/exposition" class="nav-link">
+                    <fmt:message key="header.exposition" bundle="${link}"/>
+                </a>
             </li>
             <c:if test="${sessionScope['role'] eq 'ADMIN'}">
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/app/adminPage" class="nav-link">Admin</a>
+                <a href="${pageContext.request.contextPath}/app/adminPage" class="nav-link">
+                    <fmt:message key="header.admin" bundle="${link}"/>
+                </a>
             </li>
             </c:if>
 
@@ -22,11 +31,17 @@
     </div>
     <div class="mr-5 d-flex loginirovanie" style="height: 45px;">
         <c:if test="${not empty sessionScope['role'] }">
-        <a href="${pageContext.request.contextPath}/app/logout"><button type="button" class="btn btn-success mx-2">Log Out</button></a>
+        <a href="${pageContext.request.contextPath}/app/logout"><button type="button" class="btn btn-success mx-2">
+            <fmt:message key="header.log.out" bundle="${link}"/>
+        </button></a>
         </c:if>
         <c:if test="${empty sessionScope['role']}">
-        <a href="${pageContext.request.contextPath}/app/login"><button type="button" class="btn btn-outline-success mx-2">Sing In</button></a>
-        <a href="${pageContext.request.contextPath}/app/registration"><button type="button" class="btn btn-success mx-2">Sing Up</button></a>
+        <a href="${pageContext.request.contextPath}/app/login"><button type="button" class="btn btn-outline-success mx-2">
+            <fmt:message key="header.log.in" bundle="${link}"/>
+        </button></a>
+        <a href="${pageContext.request.contextPath}/app/registration"><button type="button" class="btn btn-success mx-2">
+            <fmt:message key="header.registration" bundle="${link}"/>
+        </button></a>
         </c:if>
         <div class="language mx-2" style="display: flex; flex-direction: column; justify-content: center; align-items: center">
                 <div style="background-image: url('${pageContext.request.contextPath}/img/ua_icon.png');

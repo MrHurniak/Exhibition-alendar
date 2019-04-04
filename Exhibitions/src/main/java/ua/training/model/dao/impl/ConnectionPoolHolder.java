@@ -3,10 +3,13 @@ package ua.training.model.dao.impl;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+//import java.util.Properties;
 
 public class ConnectionPoolHolder {
     private static volatile DataSource dataSource;
-
     public static DataSource getDataSource() {
         if (dataSource == null) {
             synchronized (ConnectionPoolHolder.class) {
@@ -23,6 +26,7 @@ public class ConnectionPoolHolder {
                         Class.forName("com.mysql.jdbc.Driver");
                         BasicDataSource ds = new BasicDataSource();
                         ds.setUrl("jdbc:mysql://localhost:3306/ExpositionProject");
+//                        ds.setUrl(getDBinfo("url"));
                         ds.setUsername("root");
                         ds.setPassword("password");
 //                        ds.setUrl(properties.getProperty("db.connection.url"));
@@ -42,5 +46,16 @@ public class ConnectionPoolHolder {
 
         return dataSource;
     }
+//    private static String getDBinfo(String key){
+//        String propertiesFile = "DBinfo";
+//        Properties properties = new Properties();
+//        try(InputStream input = new FileInputStream(propertiesFile)){
+//            properties.load(input);
+//            return properties.getProperty(key);
+//        } catch (IOException e){
+//            //todo log
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 }

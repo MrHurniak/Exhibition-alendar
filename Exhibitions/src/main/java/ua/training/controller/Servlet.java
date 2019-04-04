@@ -39,13 +39,16 @@ public class Servlet extends HttpServlet {
             throws IOException, ServletException {
         processRequest(request, response);
     }
-
+    //todo path filter
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         System.out.println("In servlet");
         printAllCurrentUsers(request);
         String path = request.getRequestURI();
 //        System.out.println(path);
+//        if(!path.contains(".*/app/")){
+//            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
+//        }
         path = path.replaceAll(".*/app/", "");
 //        System.out.println(path);
         Command command = commands.getOrDefault(path ,

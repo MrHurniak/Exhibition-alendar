@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: andrii
@@ -13,6 +14,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/abminStyle.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <fmt:setBundle var="link" basename="messages" scope="session"/>
 </head>
 <body>
 <div class="container-fluid px-0">
@@ -21,7 +23,11 @@
             <!-- fixed sidebar -->
             <div class="navbar-dark bg-dark text-white position-fixed h-100 align-self-start w-sidebar myclass">
                 <div>
-                    <h6 class="px-3 pt-3"><img src="${pageContext.request.contextPath}/img/paint-board-and-brush.svg" class="mx-5" alt="Logo" style="width:40px;">Admin page
+                    <h6 class="px-3 pt-3">
+                        <a href="${pageContext.request.contextPath}/index.jsp">
+                        <img src="${pageContext.request.contextPath}/img/paint-board-and-brush.svg" class="mx-5" alt="Logo" style="width:40px;">
+                        </a>
+                        <fmt:message key="admin.page" bundle="${link}"/>
                         <a data-toggle="collapse" class="px-1 d-inline d-md-none text-white" href="#" data-target=".collapse">
                             <i class="fa fa-bars"></i>
                         </a>
@@ -39,8 +45,12 @@
                     </ul>
                 </div>
                 <div class="logout">
-                    <a href="${pageContext}/app/logout">Log out</a>
-                    <a href="${pageContext.request.contextPath}/index.jsp">Return</a>
+                    <a href="${pageContext}/app/logout">
+                        <fmt:message key="header.log.out" bundle="${link}"/>
+                    </a>
+                    <a href="${pageContext.request.contextPath}/index.jsp">
+                        <fmt:message key="page.return" bundle="${link}"/>
+                    </a>
                 </div>
             </div>
         </div>

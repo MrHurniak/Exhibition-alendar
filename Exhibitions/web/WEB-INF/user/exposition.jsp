@@ -1,3 +1,4 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: andrii
@@ -12,6 +13,7 @@
     <title>Calendar of exhibitions</title>
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png" sizes="96x96">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+    <fmt:setBundle var="link" basename="messages" scope="session" />
     <jsp:include page="../../bootstrap.jsp"/>
 </head>
 <body>
@@ -44,7 +46,8 @@
                                 <label style="line-height: 16px; margin-left:5px;" for="CheckBox4">CheckBox4</label>
                             </div>
 
-                            <input class="btn btn-success" type="submit" name="OK" value="SUBMIT">
+                            <input class="btn btn-success" type="submit" name="OK"
+                            value="<fmt:message key="button.submit" bundle="${link}"/>">
                         </form>
                     </div>
                 </div>
@@ -57,7 +60,8 @@
                             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur illum enim nisi natus deleniti voluptate laboriosam esse debitis, sint officia, aperiam in dignissimos, quidem? Fuga voluptatum alias, accusamus officia dolorum.</p>
                             <form>
                                 <input type="text" hidden name="buy" value="1"/>
-                                <input type="submit" class="btn btn-secondary" value="BUY">
+                                <input type="submit" class="btn btn-secondary"
+                                       value="<fmt:message key="button.buy" bundle="${link}"/>">
                             </form>
                         </div>
                     </div>
@@ -67,7 +71,8 @@
                             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia ipsam porro, quam delectus deserunt minima perspiciatis! Delectus architecto, autem optio culpa, molestias dicta, ipsam laudantium voluptatibus temporibus facilis iste soluta.</p>
                             <form>
                                 <input type="text" hidden name="buy" value="1"/>
-                                <input type="submit" class="btn btn-secondary" value="BUY">
+                                <input type="submit" class="btn btn-secondary"
+                                       value="<fmt:message key="button.buy" bundle="${link}"/>">
                             </form>
                         </div>
                     </div>
@@ -77,7 +82,8 @@
                             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla consequuntur, atque animi. Cum exercitationem aut aperiam animi harum dolores, reprehenderit cupiditate molestiae eos, incidunt aliquam, dicta nostrum impedit tempora minus!</p>
                             <form>
                                 <input type="text" hidden name="buy" value="1"/>
-                                <input type="submit" class="btn btn-secondary" value="BUY">
+                                <input type="submit" class="btn btn-secondary"
+                                       value="<fmt:message key="button.buy" bundle="${link}"/>">
                             </form>
                         </div>
                     </div>
@@ -87,7 +93,8 @@
                             <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error laboriosam veritatis provident, aperiam id aliquam laudantium doloremque laborum repellendus ut, officia quasi commodi placeat voluptas architecto recusandae voluptatum unde maiores.</p>
                             <form>
                                 <input type="text" hidden name="buy" value="1"/>
-                                <input type="submit" class="btn btn-secondary" value="BUY">
+                                <input type="submit" class="btn btn-secondary"
+                                       value="<fmt:message key="button.buy" bundle="${link}"/>">
                             </form>
                         </div>
                     </div>
