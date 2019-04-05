@@ -12,4 +12,12 @@ public class EncodingTest {
         System.out.println(resourceBundle.getString("header.exposition"));
     }
 
+    @Test
+    public void replaceTest(){
+        String path = "/app/user/exposition";
+        path = path.replaceAll(".*/app/((\\buser)|(\\badmin))/", "");
+        System.out.println(path);
+
+    }
+
 }

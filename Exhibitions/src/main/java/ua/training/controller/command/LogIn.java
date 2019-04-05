@@ -18,8 +18,8 @@ public class LogIn implements Command {
         this.userService = userService;
         pages.put("login", "/login.jsp");
         //todo ????
-        pages.put("ADMIN", "redirect:admin");
-        pages.put("USER", "redirect:user");
+        pages.put("ADMIN", "redirect:index.jsp");
+        pages.put("USER", "redirect:index.jsp");
     }
 
     @Override
@@ -38,8 +38,8 @@ public class LogIn implements Command {
                 System.out.println("present but not log");
                 return "/WEB-INF/error.jsp";
             }
-
-            return pages.getOrDefault(user.get().getRole() + "", pages.get("login"));
+//            return pages.getOrDefault(user.get().getRole() + "", pages.get("login"));
+            return "redirect:r";
         }
         return "redirect:login";
     }

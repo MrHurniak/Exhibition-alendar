@@ -15,13 +15,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/app/exposition" class="nav-link">
+                <a href="${pageContext.request.contextPath}/app/r/exposition" class="nav-link">
                     <fmt:message key="header.exposition" bundle="${link}"/>
                 </a>
             </li>
             <c:if test="${sessionScope['role'] eq 'ADMIN'}">
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/app/adminPage" class="nav-link">
+                <a href="${pageContext.request.contextPath}/app/r/adminPage" class="nav-link">
                     <fmt:message key="header.admin" bundle="${link}"/>
                 </a>
             </li>
@@ -46,11 +46,11 @@
         <div class="language mx-2" style="display: flex; flex-direction: column; justify-content: center; align-items: center">
                 <div style="background-image: url('${pageContext.request.contextPath}/img/ua_icon.png');
                         background-size: cover; height: 17px; width: 23px;">
-                    <a href="${pageContext.request.contextPath}/ua.lang" style="display: block; height: 100%"></a>
+                    <a href="${pageContext.request.contextPath}/?lang=ua" style="display: block; height: 100%"></a>
                 </div>
                 <div style="background-image: url('${pageContext.request.contextPath}/img/gb_icon.png');
                         background-size: cover; height: 17px; width: 23px; margin-top: 2.5px">
-                    <a href="${pageContext.request.contextPath}/en.lang" style="display: block; height: 100%"></a>
+                    <a href="${pageContext.request.contextPath}/?lang=en" style="display: block; height: 100%"></a>
                 </div>
         </div>
     </div>

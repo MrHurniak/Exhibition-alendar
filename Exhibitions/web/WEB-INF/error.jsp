@@ -19,30 +19,22 @@
     <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/error-style.css" />
 </head>
     <body>
-    <div id="notfound">
-        <div class="notfound-bg"></div>
-        <div class="notfound">
-            <div class="notfound-404">
-                <h1>404</h1>
+        <div id="notfound">
+            <div class="notfound-bg"></div>
+            <div class="notfound">
+                <div class="notfound-404">
+                    <h1>404</h1>
+                </div>
+                <h2>we are sorry, but the page you requested was not found</h2>
+                <a href="${pageContext.request.contextPath}/index.jsp" class="home-btn">Go Home</a>
+                <a href="${pageContext.request.contextPath}/index.jsp#map" class="contact-btn">Contact us</a>
+                <div class="notfound-social">
+                    <a href="https://www.facebook.com/mrhurniak"><i class="fab fa-facebook"></i></a>
+                    <a href="https://twitter.com/HolyBozhenko"><i class="fab fa-twitter"></i></a>
+                    <a href="https://github.com/MrHurniak"><i class="fab fa-google-plus"></i></a>
+                </div>
             </div>
-            <h2>we are sorry, but the page you requested was not found</h2>
-            <a href="${pageContext.request.contextPath}/index.jsp" class="home-btn">Go Home</a>
-            <a href="${pageContext.request.contextPath}/index.jsp#map" class="contact-btn">Contact us</a>
-            <div class="notfound-social">
-                <a href="https://www.facebook.com/mrhurniak"><i class="fab fa-facebook"></i></a>
-                <a href="https://twitter.com/HolyBozhenko"><i class="fab fa-twitter"></i></a>
-                <a href="https://github.com/MrHurniak"><i class="fab fa-google-plus"></i></a>
-            </div>
+            <i style="color: white">Error <%= exception %></i>
         </div>
-        <i style="color: white">Error <%= exception %></i>
-    </div>
-        <%--<h2>--%>
-           <%--Error Page<br/>--%>
-    <%--<i>Error <%= exception %></i>--%>
-        <%--</h2>--%>
-    <%--<br>--%>
-        <%--<a href="${pageContext.request.contextPath}/index.jsp">Index</a>--%>
-
-
     </body>
 </html>

@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-8" style="border-left: 1px solid grey; border-right: 1px solid grey;" >
 
-
+                    
                     <div class="card my-1">
                         <div class="card-body">
                             <h5 class="card-title" style="text-align: left;"><a href="#">Card One</a></h5>

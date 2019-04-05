@@ -43,11 +43,15 @@
   </filter>
   <filter-mapping>
     <filter-name>AuthorizationFilter</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/app/r/*</url-pattern>
   </filter-mapping>
 
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
+    <location>/WEB-INF/error.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
     <location>/WEB-INF/error.jsp</location>
   </error-page>
 

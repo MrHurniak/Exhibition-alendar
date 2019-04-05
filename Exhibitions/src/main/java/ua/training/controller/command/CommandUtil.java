@@ -15,7 +15,7 @@ public class CommandUtil {
         session.setAttribute("role", role);
     }
 
-    static boolean isAdmin(HttpServletRequest request){
+    public static boolean isAdmin(HttpServletRequest request){
         Object roleObj = request.getSession().getAttribute("role");
         Role role = Role.valueOf(roleObj != null ?
                 roleObj.toString() : Role.UNKNOWN.name());
@@ -24,7 +24,7 @@ public class CommandUtil {
         }
         return false;
     }
-    static boolean checkUserIsLogged(HttpServletRequest request){
+    public static boolean isUserLogged(HttpServletRequest request){
         String login = (String) request.getSession().getAttribute("login");
         if(request == null || login == null){
             return false;
@@ -39,7 +39,7 @@ public class CommandUtil {
                 .setAttribute("loggedUsers", loggedUsers);
         return false;
     }
-    static boolean isUserAbsentInLogged(HttpServletRequest request, String login, Role role){
+    public static boolean isUserAbsentInLogged(HttpServletRequest request, String login, Role role){
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession().getServletContext()
                 .getAttribute("loggedUsers");
 

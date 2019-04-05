@@ -2,6 +2,7 @@ package ua.training.controller;
 
 import ua.training.controller.command.*;
 import ua.training.controller.command.Exception;
+import ua.training.model.service.ExpositionService;
 import ua.training.model.service.UserService;
 
 import javax.servlet.ServletConfig;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 public class Servlet extends HttpServlet {
     private UserService  userService = new UserService();
+    private ExpositionService expoService = new ExpositionService();
     private Map<String, Command> commands = new HashMap<>();
 
     public void init(ServletConfig config){
@@ -25,8 +27,10 @@ public class Servlet extends HttpServlet {
         commands.put("login", new LogIn(userService));
         commands.put("registration", new Registration(userService));
         commands.put("exception" , new Exception());
-        commands.put("exposition" , new Exposition());
-        commands.put("adminPage",new AdminPage());
+        commands.put("r/exposition" , new Exposition(expoService));
+        commands.put("r/adminPage",new AdminPage());
+        commands.put("error", e -> "/WEB-INF/error.jsp");
+        commands.put("forbidden", e -> "/WEB-INF/admin/forbidden.jsp");
     }
 
     public void doGet(HttpServletRequest request,
@@ -45,12 +49,7 @@ public class Servlet extends HttpServlet {
         System.out.println("In servlet");
         printAllCurrentUsers(request);
         String path = request.getRequestURI();
-//        System.out.println(path);
-//        if(!path.contains(".*/app/")){
-//            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-//        }
         path = path.replaceAll(".*/app/", "");
-//        System.out.println(path);
         Command command = commands.getOrDefault(path ,
                 (r)->"/index.jsp");
         String page = command.execute(request);

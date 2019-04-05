@@ -14,7 +14,7 @@ public class Registration implements Command {
     }
     @Override
     public String execute(HttpServletRequest request) {
-        if(CommandUtil.checkUserIsLogged(request)){
+        if(CommandUtil.isUserLogged(request)){
             return "/WEB-INF/error.jsp";
         }
         String name = request.getParameter("name");

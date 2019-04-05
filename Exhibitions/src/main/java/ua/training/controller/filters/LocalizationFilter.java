@@ -15,32 +15,24 @@ public class LocalizationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String path = request.getRequestURI();
-        if (path.contains("/ua.lang")) {
-            System.out.println("==тут співпадіння з укр");
-            System.out.println("make ukr lang");
-            System.out.println(request.getHeader("referer"));
-            Config.set(request.getSession(), Config.FMT_LOCALE, new Locale("ua","UA"));
-//            request.getRequestDispatcher("/index.jsp").forward(request,response);
-//            response.sendRedirect("/index.jsp");
-            response.sendRedirect(request.getHeader("referer"));
 
-        } else if (path.contains("/en.lang")) {
-                System.out.println("==тут співпадіння з анг");
-                System.out.println("make en lang");
-                System.out.println(request.getHeader("referer"));
-            Config.set(request.getSession(), Config.FMT_LOCALE,Locale.getDefault());
-//                request.getRequestDispatcher("/index.jsp").forward(request, response);
-                response.sendRedirect(request.getHeader("referer"));
-//        } else if(!path.contains("/app/")) {
-//            request.getRequestDispatcher("/WEB-INF/error.jsp").forward(request, response);
-        }else {
-                System.out.println("==тут пішли далі");
-                filterChain.doFilter(request, response);
+        String lang = servletRequest.getParameter("lang");
+        if (lang != null) {
+
+            HttpServletRequest request = (HttpServletRequest) servletRequest;
+            HttpServletResponse response = (HttpServletResponse) servletResponse;
+
+            if (lang.equals("ua")) {
+                Config.set(request.getSession(), Config.FMT_LOCALE, new Locale("ua", "UA"));
             }
+            if (lang.equals("en")) {
+                Config.set(request.getSession(), Config.FMT_LOCALE, new Locale("en", "US"));
+            }
+            response.sendRedirect(request.getHeader("referer"));
+            return;
         }
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
 
 
 
