@@ -26,14 +26,13 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     @Override
     public void insert(Exposition expo) {
         String query = "insert into ExpositionProject.expositions (theme, shortDescription, fullDescription, " +
-                "ticketsCount, price, hall_id) values (?, ?, ? , ?, ?, ?);";
+                "price, hall_id) values (?, ?, ? , ?, ?);";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, expo.getTheme());
             statement.setString(2, expo.getShortDescription());
             statement.setString(3, expo.getFullDescription());
-            statement.setInt(4, expo.getTicketsCount());
-            statement.setInt(5, expo.getPrice());
-            statement.setInt(6, expo.getHall().getId());
+            statement.setInt(4, expo.getPrice());
+            statement.setInt(5, expo.getHall().getId());
             statement.executeUpdate();
         } catch (SQLException e){
             //todo log
@@ -66,15 +65,14 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     @Override
     public void update(Exposition expo) {
         String query = "update ExpositionProject.expositions  set theme = ?, shortDescription = ?, " +
-                "fullDescription = ?, ticketsCount = ?, price = ?, hall_id = ? where id = ?;";
+                "fullDescription = ?, price = ?, hall_id = ? where id = ?;";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, expo.getTheme());
             statement.setString(2, expo.getShortDescription());
             statement.setString(3, expo.getFullDescription());
-            statement.setInt(4, expo.getTicketsCount());
-            statement.setInt(5, expo.getPrice());
-            statement.setInt(6, expo.getHall().getId());
-            statement.setInt(7, expo.getId());
+            statement.setInt(4, expo.getPrice());
+            statement.setInt(5, expo.getHall().getId());
+            statement.setInt(6, expo.getId());
             statement.executeUpdate();
         } catch (SQLException e){
             //todo log
@@ -119,6 +117,55 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
         }
     }
 
+    public List<Exposition> getInRangeHall(int offset, int length, int hallId) {
+        String query = "SELECT  * FROM ExpositionProject.expositions " +
+                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
+                "where expositions.hall_id = ? " +
+                "limit ?,?;";
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, hallId);
+            statement.setInt(2, offset);
+            statement.setInt(3, length);
+            return getList(statement);
+        } catch (SQLException e){
+            //todo log
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public int getNumberRows(int id) {
+        String query = "SELECT count(expositions.id) as count FROM ExpositionProject.expositions " +
+                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
+                "where expositions.hall_id = ?;";
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return resultSet.getInt("count");
+            }
+
+        } catch (SQLException e){
+            //todo log
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
+    public int getNumberRows() {
+        String query = "SELECT count(expositions.id) as count FROM ExpositionProject.expositions;";
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return resultSet.getInt("count");
+            }
+        } catch (SQLException e){
+            //todo log
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
+
     private List<Exposition> getList(PreparedStatement statement) throws SQLException{
         Map<Integer, ExhibitionHall> hallsMap = new HashMap<>();
         List<Exposition> list = new ArrayList<>();
@@ -135,4 +182,6 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
         }
         return list;
     }
+
+
 }

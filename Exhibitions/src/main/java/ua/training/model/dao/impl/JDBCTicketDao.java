@@ -45,6 +45,7 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         }
     }
 
+
     @Override
     public Ticket getById(int id) {
         String query = "SELECT * FROM ExpositionProject.tickets " +
@@ -99,6 +100,37 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
             //todo log
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Exposition> getUserExposition(User user){
+        List<Exposition> expoList = new ArrayList<>();
+//        Map<Integer, Exposition> expoMap = new HashMap<>();
+        Map<Integer, ExhibitionHall> hallMap = new HashMap<>();
+        Exposition expo;
+        ExhibitionHall hall;
+
+        ResultSet resultSet;
+        String query = "SELECT * FROM ExpositionProject.tickets " +
+                "join expositions on tickets.exposition_id = expositions.id " +
+                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
+                "where user_id = ?;";
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setInt(1, user.getId());
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                expo = expoMapper.extractFromResultSet(resultSet);
+                hall = hallMapper.extractFromResultSet(resultSet);
+                hall = hallMapper.makeUnique(hallMap, hall);
+//                expo = expoMapper.makeUnique(expoMap, expo);
+                expo.setHall(hall);
+                expoList.add(expo);
+            }
+            return expoList;
+        } catch (SQLException e){
+            //todo log
+            throw new RuntimeException(e);
+        }
+
     }
 
     //todo refactoring

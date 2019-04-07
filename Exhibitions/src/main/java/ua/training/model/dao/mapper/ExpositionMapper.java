@@ -22,7 +22,6 @@ public class ExpositionMapper implements ObjectMapper<Exposition> {
         expo.setTheme(resultSet.getString("expositions.theme"));
         expo.setShortDescription(resultSet.getString("expositions.shortDescription"));
         expo.setFullDescription(resultSet.getString("expositions.fullDescription"));
-        expo.setTicketsCount(resultSet.getInt("expositions.ticketsCount"));
         expo.setPrice(resultSet.getInt("expositions.price"));
         //todo return without ExhibitionHall
         return expo;

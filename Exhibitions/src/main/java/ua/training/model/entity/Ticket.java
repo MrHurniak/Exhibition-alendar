@@ -16,6 +16,11 @@ public class Ticket implements Serializable {
         this.user = user;
         this.exposition = exposition;
     }
+    public Ticket(User user, Exposition exposition){
+        this.user = user;
+        this.exposition = exposition;
+        this.id = 0;
+    }
 
     public int getId() {
         return id;

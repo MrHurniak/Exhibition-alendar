@@ -7,15 +7,18 @@ import java.util.HashSet;
 public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
-
+//        httpSessionEvent.getSession().setMaxInactiveInterval(60);
     }
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+        System.out.println("session destroyed");
         HashSet<String> loggedUsers = (HashSet<String>)httpSessionEvent
                 .getSession().getServletContext().getAttribute("loggedUsers");
-        String email = (String)httpSessionEvent.getSession().getAttribute("login");
-        loggedUsers.remove(email);
+        String login = (String)httpSessionEvent.getSession().getAttribute("login");
+        loggedUsers.remove(login);
+        httpSessionEvent.getSession().setAttribute("login",null);
+        httpSessionEvent.getSession().setAttribute("role",null);
         httpSessionEvent.getSession().getServletContext().setAttribute("loggedUsers", loggedUsers);
     }
 }

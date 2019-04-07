@@ -43,8 +43,8 @@ public class ExpoDaoTest {
     @Test
     public void insertTest(){
         String testV = "insertTest";
-        Exposition expo = new Exposition(0, 100, 100
-                , testV, testV, testV, new ExhibitionHall(1,testV,testV));
+        Exposition expo = new Exposition(0, 100,
+                testV, testV, testV, new ExhibitionHall(1,testV,testV));
         expoDao.insert(expo);
         List<Exposition> list = expoDao.getAll();
         list.forEach(System.out::println);

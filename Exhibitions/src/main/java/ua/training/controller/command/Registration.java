@@ -33,11 +33,13 @@ public class Registration implements Command {
         user.setName(name);
         user.setEmail(email);
         user.setSurname(surname);
+        user.setLogin(login);
         //todo encrypt password
         user.setPassword(password);
 
         if(userService.validateData(user)){
-            return "/registration.jsp";
+            userService.createUser(user);
+            return "redirect:/app/r";
         }
         return "/registration.jsp";
     }

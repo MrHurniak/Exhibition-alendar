@@ -22,8 +22,8 @@ public class HallDaoTest {
     @Test
     public void insertTest(){
         ExhibitionHall hall = new ExhibitionHall();
-        hall.setName("Test name");
-        hall.setInformation("Test information");
+        hall.setName("Тестове");
+        hall.setInformation("вфцвііі");
 
         hallDao.insert(hall);
 
@@ -40,7 +40,7 @@ public class HallDaoTest {
     @Test
     public void updateTest(){
         ExhibitionHall hall = new ExhibitionHall();
-        hall.setId(3);
+        hall.setId(5);
         hall.setName("New test name");
         hall.setInformation("New test information");
         hallDao.update(hall);

@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Calendar of exhibitions</title>
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png" sizes="96x96">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/signinup.css">
 </head>
 <body>

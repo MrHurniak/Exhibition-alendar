@@ -21,7 +21,7 @@
             </li>
             <c:if test="${sessionScope['role'] eq 'ADMIN'}">
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/app/r/adminPage" class="nav-link">
+                <a href="${pageContext.request.contextPath}/app/r/admin/stat" class="nav-link">
                     <fmt:message key="header.admin" bundle="${link}"/>
                 </a>
             </li>
@@ -30,10 +30,16 @@
         </ul>
     </div>
     <div class="mr-5 d-flex loginirovanie" style="height: 45px;">
-        <c:if test="${not empty sessionScope['role'] }">
+        <c:if test="${sessionScope['role'] eq 'USER'}">
+        <a href="${pageContext.request.contextPath}/app/r/user/tickets">
+            <button type="button" class="btn btn-primary mx-2 my-1 py-2 px-3"><i class="fas fa-shopping-cart"></i>
+        </button></a>
+        </c:if>
+        <c:if test="${not empty sessionScope['role']}">
         <a href="${pageContext.request.contextPath}/app/logout"><button type="button" class="btn btn-success mx-2">
             <fmt:message key="header.log.out" bundle="${link}"/>
         </button></a>
+
         </c:if>
         <c:if test="${empty sessionScope['role']}">
         <a href="${pageContext.request.contextPath}/app/login"><button type="button" class="btn btn-outline-success mx-2">

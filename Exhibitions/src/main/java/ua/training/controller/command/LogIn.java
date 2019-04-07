@@ -4,22 +4,14 @@ import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-//import java.util.HashSet;
 
 public class LogIn implements Command {
     private UserService userService;
-    private Map<String, String> pages = new HashMap<>();
 
     public LogIn(UserService userService) {
         this.userService = userService;
-        pages.put("login", "/login.jsp");
-        //todo ????
-        pages.put("ADMIN", "redirect:index.jsp");
-        pages.put("USER", "redirect:index.jsp");
     }
 
     @Override
@@ -33,15 +25,15 @@ public class LogIn implements Command {
         Optional<User> user = userService.getByLogin(login);
 
         if (user.isPresent() && /*password.equals(user.get().getPassword())*/ true) {
-            System.out.println("user is present");
-            if (CommandUtil.isUserAbsentInLogged(request, user.get().getEmail(), user.get().getRole())) {
-                System.out.println("present but not log");
+            if (CommandUtil.isUserAbsentInLogged(request, user.get().getLogin(), user.get().getRole())) {
                 return "/WEB-INF/error.jsp";
             }
-//            return pages.getOrDefault(user.get().getRole() + "", pages.get("login"));
-            return "redirect:r";
+            request.getSession().setAttribute("message", null);
+            return "redirect:/app/r";
         }
-        return "redirect:login";
+        //todo change to boolean for i18n
+        request.getSession().setAttribute("message","невірний логін чи пароль");
+        return "redirect:/app/login";
     }
 
 }

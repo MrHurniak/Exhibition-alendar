@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.model.service.ExpositionService;
+import ua.training.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,7 +14,16 @@ public class Exposition implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        request.getSession().setAttribute("expositionsList",expoService.getNext(0));
+        String hall = request.getParameter("hall");
+        String page = request.getParameter("page");
+
+
+        request.setAttribute("expositionsList",expoService.getExpoList(page, hall));
+        request.setAttribute("halls", expoService.getHalls());
+        request.setAttribute("noOfPages", expoService.getNumberOfPages(hall));
+        request.setAttribute("currentPage"
+                , Utils.isNumber(page)? Integer.parseInt(page): 1);
+
         return "/WEB-INF/user/exposition.jsp";
     }
 }

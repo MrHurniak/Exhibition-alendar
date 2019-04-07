@@ -6,22 +6,19 @@ import java.util.Objects;
 public class Exposition implements Serializable {
     private int id;
     private int price;
-    private int ticketsCount;
     private String theme;
     private String shortDescription;
     private String fullDescription;
-
     private ExhibitionHall hall;
 
     public Exposition() {
     }
 
-    public Exposition(int id, int price, int ticketsCount,
+    public Exposition(int id, int price,
                       String theme, String shortDescription,
                       String fullDescription, ExhibitionHall hall) {
         this.id = id;
         this.price = price;
-        this.ticketsCount = ticketsCount;
         this.theme = theme;
         this.shortDescription = shortDescription;
         this.fullDescription = fullDescription;
@@ -44,13 +41,6 @@ public class Exposition implements Serializable {
         this.price = price;
     }
 
-    public int getTicketsCount() {
-        return ticketsCount;
-    }
-
-    public void setTicketsCount(int ticketsCount) {
-        this.ticketsCount = ticketsCount;
-    }
 
     public String getTheme() {
         return theme;
@@ -91,7 +81,6 @@ public class Exposition implements Serializable {
         Exposition that = (Exposition) o;
         return id == that.id &&
                 price == that.price &&
-                ticketsCount == that.ticketsCount &&
                 Objects.equals(theme, that.theme) &&
                 Objects.equals(shortDescription, that.shortDescription) &&
                 Objects.equals(fullDescription, that.fullDescription) &&
@@ -100,7 +89,7 @@ public class Exposition implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, ticketsCount, theme, shortDescription, fullDescription, hall);
+        return Objects.hash(id, price, theme, shortDescription, fullDescription, hall);
     }
 
     @Override
@@ -108,7 +97,6 @@ public class Exposition implements Serializable {
         return "Exposition{" +
                 "id=" + id +
                 ", price=" + price +
-                ", ticketsCount=" + ticketsCount +
                 ", theme='" + theme + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
                 ", fullDescription='" + fullDescription + '\'' +
