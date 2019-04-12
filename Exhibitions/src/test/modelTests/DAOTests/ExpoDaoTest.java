@@ -8,6 +8,7 @@ import ua.training.model.dao.impl.JDBCExpositionDao;
 import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.entity.Exposition;
 
+import java.sql.Date;
 import java.util.List;
 
 public class ExpoDaoTest {
@@ -44,7 +45,7 @@ public class ExpoDaoTest {
     public void insertTest(){
         String testV = "insertTest";
         Exposition expo = new Exposition(0, 100,
-                testV, testV, testV, new ExhibitionHall(1,testV,testV));
+                testV, testV, testV,new Date(new java.util.Date().getTime()), new ExhibitionHall(1,testV,testV));
         expoDao.insert(expo);
         List<Exposition> list = expoDao.getAll();
         list.forEach(System.out::println);

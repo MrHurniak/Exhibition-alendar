@@ -21,12 +21,13 @@ public class PaymentConfirm implements Command {
             userService.buyTickets(
                     userService.getByLogin(((String)request.getSession().getAttribute("login"))).get(),
                     expo,
-                    (Integer) request.getSession().getAttribute("price")
+                    (Integer) request.getSession().getAttribute("tickets_count")
             );
         }
         HttpSession session = request.getSession();
         session.setAttribute("price",null);
         session.setAttribute("expo",null);
+        session.setAttribute("tickets_count",null);
         return "redirect:/app/r/exposition";
     }
 }

@@ -17,14 +17,19 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
-    private UserService  userService = new UserService();
-    private ExpositionService expoService = new ExpositionService();
-    private HallsService hallsService = new HallsService();
-    private Map<String, Command> commands = new HashMap<>();
+    private UserService  userService;
+    private ExpositionService expoService ;
+    private HallsService hallsService ;
+    private Map<String, Command> commands;
 
     public void init(ServletConfig config){
+        System.out.println("In init method");
         config.getServletContext().setAttribute("loggedUsers",
                 new HashSet<String>());
+        userService = new UserService();
+        expoService = new ExpositionService();
+        hallsService = new HallsService();
+        commands = new HashMap<>();
         commands.put("logout", new LogOut());
         commands.put("login", new LogIn(userService));
         commands.put("registration", new Registration(userService));

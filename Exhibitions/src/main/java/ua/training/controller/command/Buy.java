@@ -34,6 +34,7 @@ public class Buy implements Command {
             throw new RuntimeException("There is no exposition with such id!");
         }
         request.getSession().setAttribute("price", getTotalPrice(exposition, ticketsCount));
+        request.getSession().setAttribute("tickets_count", Integer.parseInt(ticketsCount));
         return "/WEB-INF/user/payment.jsp";
     }
 

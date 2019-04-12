@@ -46,6 +46,31 @@ public class Ticket implements Serializable {
         this.exposition = exposition;
     }
 
+    public static class Builder{
+        private int id;
+        private User user;
+        private Exposition exposition;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder setExposition(Exposition exposition) {
+            this.exposition = exposition;
+            return this;
+        }
+
+        public Ticket build(){
+            return new Ticket(id, user, exposition);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row  justify-content-center">
                 <div class="col-xs-12 col-sm-8 p-2">
-                    <h3>Tickets</h3>
+                    <h3><fmt:message key="user.tickets.bought" bundle="${link}"/></h3>
                     <c:forEach items="${requestScope['tickets']}" var="elem">
                         <div class="card my-1">
                             <div class="card-body">

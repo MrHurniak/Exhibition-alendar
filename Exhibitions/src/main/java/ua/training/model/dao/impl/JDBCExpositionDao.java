@@ -26,13 +26,14 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     @Override
     public void insert(Exposition expo) {
         String query = "insert into ExpositionProject.expositions (theme, shortDescription, fullDescription, " +
-                "price, hall_id) values (?, ?, ? , ?, ?);";
+                "price, date, hall_id) values (?, ?, ? , ?, ?, ?);";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, expo.getTheme());
             statement.setString(2, expo.getShortDescription());
             statement.setString(3, expo.getFullDescription());
             statement.setInt(4, expo.getPrice());
-            statement.setInt(5, expo.getHall().getId());
+            statement.setDate(5, expo.getDate());
+            statement.setInt(6, expo.getHall().getId());
             statement.executeUpdate();
         } catch (SQLException e){
             //todo log
@@ -65,14 +66,15 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     @Override
     public void update(Exposition expo) {
         String query = "update ExpositionProject.expositions  set theme = ?, shortDescription = ?, " +
-                "fullDescription = ?, price = ?, hall_id = ? where id = ?;";
+                "fullDescription = ?, price = ?,date = ?, hall_id = ? where id = ?;";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, expo.getTheme());
             statement.setString(2, expo.getShortDescription());
             statement.setString(3, expo.getFullDescription());
             statement.setInt(4, expo.getPrice());
             statement.setInt(5, expo.getHall().getId());
-            statement.setInt(6, expo.getId());
+            statement.setDate(6, expo.getDate());
+            statement.setInt(7, expo.getId());
             statement.executeUpdate();
         } catch (SQLException e){
             //todo log

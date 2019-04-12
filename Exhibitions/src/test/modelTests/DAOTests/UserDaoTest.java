@@ -31,14 +31,13 @@ public class UserDaoTest {
 
     @Test
     public void insertTest(){
-        User user = new User();
-        String smth = "TestFromTest2";
-        user.setName(smth);
-        user.setSurname(smth);
-        user.setLogin(smth);
-        user.setPassword(smth);
-        user.setEmail(smth);
-        user.setRole(Role.USER);
+        User.Builder builder = new User.Builder();
+         User user = builder.setName("name")
+                .setSurname("surname")
+                .setEmail("email")
+                .setLogin("login1488")
+                .setPassword("password")
+                .setRole(Role.USER).build();
         userDao.insert(user);
 
         userDao.getAll().forEach(System.out::println);

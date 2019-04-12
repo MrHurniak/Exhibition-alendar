@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class ExpositionMapper implements ObjectMapper<Exposition> {
-
+    //todo take this off
     private ExhibitionHallMapper hallMapper;
 
     public ExpositionMapper(ExhibitionHallMapper hallMapper){
@@ -17,14 +17,15 @@ public class ExpositionMapper implements ObjectMapper<Exposition> {
 
     @Override
     public Exposition extractFromResultSet(ResultSet resultSet) throws SQLException {
-        Exposition expo = new Exposition();
-        expo.setId(resultSet.getInt("expositions.id"));
-        expo.setTheme(resultSet.getString("expositions.theme"));
-        expo.setShortDescription(resultSet.getString("expositions.shortDescription"));
-        expo.setFullDescription(resultSet.getString("expositions.fullDescription"));
-        expo.setPrice(resultSet.getInt("expositions.price"));
         //todo return without ExhibitionHall
-        return expo;
+        return new Exposition.Builder()
+                .setId(resultSet.getInt("expositions.id"))
+                .setTheme(resultSet.getString("expositions.theme"))
+                .setShortDescription(resultSet.getString("expositions.shortDescription"))
+                .setFullDescription(resultSet.getString("expositions.fullDescription"))
+                .setPrice(resultSet.getInt("expositions.price"))
+                .setDate(resultSet.getDate("expositions.date"))
+                .build();
     }
 
     @Override
@@ -37,7 +38,4 @@ public class ExpositionMapper implements ObjectMapper<Exposition> {
         return hallMapper;
     }
 
-    public void setHallMapper(ExhibitionHallMapper hallMapper) {
-        this.hallMapper = hallMapper;
-    }
 }

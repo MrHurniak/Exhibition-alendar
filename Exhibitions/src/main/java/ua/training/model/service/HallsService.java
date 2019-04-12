@@ -8,6 +8,7 @@ import ua.training.model.service.util.Utils;
 import java.util.List;
 
 public class HallsService {
+    //todo save all hall in list. Make request only when admin smth change
     JDBCExhibitionHallDao hallDao = DaoFactory.getInstance().createExhibitionHallDao();
 
     public void add(String name, String info){

@@ -1,6 +1,7 @@
 package ua.training.model.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 public class Exposition implements Serializable {
@@ -9,6 +10,7 @@ public class Exposition implements Serializable {
     private String theme;
     private String shortDescription;
     private String fullDescription;
+    private Date date;
     private ExhibitionHall hall;
 
     public Exposition() {
@@ -16,12 +18,13 @@ public class Exposition implements Serializable {
 
     public Exposition(int id, int price,
                       String theme, String shortDescription,
-                      String fullDescription, ExhibitionHall hall) {
+                      String fullDescription, Date date, ExhibitionHall hall) {
         this.id = id;
         this.price = price;
         this.theme = theme;
         this.shortDescription = shortDescription;
         this.fullDescription = fullDescription;
+        this.date = date;
         this.hall = hall;
     }
 
@@ -74,6 +77,62 @@ public class Exposition implements Serializable {
         this.hall = hall;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public static class Builder{
+        private int id;
+        private int price;
+        private String theme;
+        private String shortDescription;
+        private String fullDescription;
+        private Date date;
+        private ExhibitionHall hall;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setPrice(int price) {
+            this.price = price;
+            return this;
+        }
+
+        public Builder setTheme(String theme) {
+            this.theme = theme;
+            return this;
+        }
+
+        public Builder setShortDescription(String shortDescription) {
+            this.shortDescription = shortDescription;
+            return this;
+        }
+
+        public Builder setFullDescription(String fullDescription) {
+            this.fullDescription = fullDescription;
+            return this;
+        }
+
+        public Builder setDate(Date date) {
+            this.date = date;
+            return this;
+        }
+
+        public Builder setHall(ExhibitionHall hall) {
+            this.hall = hall;
+            return this;
+        }
+        public Exposition build(){
+            return new Exposition(id, price, theme, shortDescription, fullDescription, date, hall);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,12 +143,13 @@ public class Exposition implements Serializable {
                 Objects.equals(theme, that.theme) &&
                 Objects.equals(shortDescription, that.shortDescription) &&
                 Objects.equals(fullDescription, that.fullDescription) &&
+                Objects.equals(date, that.date) &&
                 Objects.equals(hall, that.hall);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, theme, shortDescription, fullDescription, hall);
+        return Objects.hash(id, price, theme, shortDescription, fullDescription, date, hall);
     }
 
     @Override
@@ -100,8 +160,8 @@ public class Exposition implements Serializable {
                 ", theme='" + theme + '\'' +
                 ", shortDescription='" + shortDescription + '\'' +
                 ", fullDescription='" + fullDescription + '\'' +
+                ", date=" + date +
                 ", hall=" + hall +
                 '}';
     }
-
 }

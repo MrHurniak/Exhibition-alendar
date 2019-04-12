@@ -1,8 +1,6 @@
 package ua.training.controller.command;
 
-import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.service.ExpositionService;
-import ua.training.model.service.HallsService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -41,7 +39,9 @@ public class AdminExpo implements Command {
         String fullDescription = request.getParameter("full");
         String price = request.getParameter("price");
         String hallId = request.getParameter("hall_id");
-        expoService.add(theme, shortDescription, fullDescription, price, hallId);
+        String date = request.getParameter("date");
+        System.out.println(date + " - Date");
+        expoService.add(theme, shortDescription, fullDescription, price,date, hallId);
     }
 
     private void delete(HttpServletRequest request){
@@ -55,9 +55,10 @@ public class AdminExpo implements Command {
         String shortDescription = request.getParameter("short");
         String fullDescription = request.getParameter("full");
         String price = request.getParameter("price");
+        String date = request.getParameter("date");
         String hallId = request.getParameter("hall_id");
         expoService.update(expoId, theme, shortDescription, fullDescription,
-                price, hallId);
+                price,date, hallId);
     }
 }
 

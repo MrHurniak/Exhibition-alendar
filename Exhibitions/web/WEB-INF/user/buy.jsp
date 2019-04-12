@@ -35,7 +35,7 @@
                     <form action="${pageContext.request.contextPath}/app/r/user/buy">
                         <label for="tickets">Tickets count (max 25)</label>
                         <input type="number" id="tickets" name="tickets_count"
-                               min="1" max="25" required>
+                               min="1" max="25" step="1" required>
                         <input type="submit" class="btn btn-dark" value="Continue">
                     </form>
                 </div>

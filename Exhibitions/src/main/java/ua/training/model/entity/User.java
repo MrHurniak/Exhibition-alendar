@@ -9,7 +9,6 @@ public class User implements Serializable {
     private int id;
     private String name;
     private String surname;
-    //todo make role within enum
     private Role role;
     private String email;
     private String login;
@@ -82,6 +81,57 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public static class Builder {
+        private int id;
+        private String name;
+        private String surname;
+        private String email;
+        private String login;
+        private String password;
+        private Role role;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setSurname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public Builder setRole(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder setLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public User build() {
+            return new User(id, name, surname, role, email, login, password);
+        }
+
+
     }
 
     @Override

@@ -41,6 +41,31 @@ public class ExhibitionHall implements Serializable {
         this.information = information;
     }
 
+    public static class Builder{
+        private int id;
+        private String name;
+        private String information;
+
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setInformation(String information) {
+            this.information = information;
+            return this;
+        }
+
+        public ExhibitionHall build(){
+            return new ExhibitionHall(id, name, information);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

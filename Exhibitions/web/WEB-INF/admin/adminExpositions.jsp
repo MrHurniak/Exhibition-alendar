@@ -11,6 +11,12 @@
         <label for="price">Price:</label>
         <input type="number" name="price" class="form-control" id="price" min="0" max="1000000000" required>
     </div>
+    <%--Birthday: <input type="date" name="bday">--%>
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" name="date" class="form-control" id="date"
+               data-date-format="DD MM YYYY" min="2000-01-01" max="2020-01-01"  style="width: 25%" required>
+    </div>
     <div class="form-group">
         <label for="short">Short description:</label>
         <textarea class="form-control" name="short" maxlength="1000" rows="2" id="short" required></textarea>
@@ -45,8 +51,14 @@
         </div>
         <div class="form-group">
             <label for="price${expo.id}">Price:</label>
-            <input type="number" name="price" class="form-control" id="price${expo.id}"
+            <input type="number" name="price" class="form-control" style="width: 20%;" id="price${expo.id}"
                    min="0" max="1000000000" value="${expo.price}" required>
+        </div>
+        <div class="form-group">
+            <label for="date${expo.id}">Date:</label>
+            <input type="date" name="date" class="form-control" id="date${expo.id}"
+                   data-date-format="DD MM YYYY" min="2000-01-01" max="2020-01-01"
+                   style="width: 20%" value="${expo.date}" required>
         </div>
         <div class="form-group">
             <label for="short${expo.id}">Short description:</label>

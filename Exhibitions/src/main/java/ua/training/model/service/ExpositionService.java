@@ -3,11 +3,11 @@ package ua.training.model.service;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.impl.JDBCExhibitionHallDao;
 import ua.training.model.dao.impl.JDBCExpositionDao;
-import ua.training.model.dao.impl.JDBCTicketDao;
 import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.entity.Exposition;
 import ua.training.model.service.util.Utils;
 
+import java.sql.Date;
 import java.util.List;
 
 public class ExpositionService {
@@ -16,19 +16,19 @@ public class ExpositionService {
     private JDBCExhibitionHallDao hallDao = DaoFactory.getInstance().createExhibitionHallDao();
 
 
-    public List<Exposition> getExpoList(String currentPage, String hallId){
-        if(Utils.isNumber(currentPage)){
+    public List<Exposition> getExpoList(String currentPage, String hallId) {
+        if (Utils.isNumber(currentPage)) {
             int offset = Integer.parseInt(currentPage);
             offset = offset <= 0 ? 0 : (offset - 1) * postOnPage;
 
-            if(Utils.isNumber(hallId)){
+            if (Utils.isNumber(hallId)) {
                 return expoDao.getInRangeHall(offset, postOnPage, Integer.parseInt(hallId));
-            }else {
+            } else {
                 return expoDao.getInRange(offset, postOnPage);
             }
         } else {
             int offset = 0;
-            if(Utils.isNumber(hallId)){
+            if (Utils.isNumber(hallId)) {
                 return expoDao.getInRangeHall(offset, postOnPage, Integer.parseInt(hallId));
             } else {
                 return expoDao.getInRange(offset, postOnPage);
@@ -36,94 +36,87 @@ public class ExpositionService {
         }
     }
 
-    public List<ExhibitionHall> getHalls(){
+    public List<ExhibitionHall> getHalls() {
         return hallDao.getAll();
     }
 
     public int getNumberOfPages(String hallId) {
         int noOfPages;
         int noOfRows;
-        if(Utils.isNumber(hallId)){
+        if (Utils.isNumber(hallId)) {
             int id = Integer.parseInt(hallId);
-             noOfRows =  expoDao.getNumberRows(id);
+            noOfRows = expoDao.getNumberRows(id);
         } else {
-            noOfRows =  expoDao.getNumberRows();
+            noOfRows = expoDao.getNumberRows();
         }
         noOfPages = noOfRows / postOnPage;
-        if((noOfRows % postOnPage) != 0){
+        if ((noOfRows % postOnPage) != 0) {
             noOfPages++;
         }
         return noOfPages;
     }
 
-    public void add(String theme, String shortDesc, String fullDesc, String priceStr, String hallIdSrt){
-        if(!Utils.isNotNull(theme,shortDesc)){
+    public void add(String theme, String shortDesc, String fullDesc, String priceStr, String date, String hallIdSrt) {
+        if (!Utils.isNotNull(theme, shortDesc)) {
             return;
         }
-        if(!Utils.isNumber(priceStr) || !Utils.isNumber(hallIdSrt)){
+        if (!Utils.isNumber(priceStr) || !Utils.isNumber(hallIdSrt)) {
             return;
         }
         int price = Integer.parseInt(priceStr);
-        if(price < 0) return;
         int hallId = Integer.parseInt(hallIdSrt);
-        if(hallId < 0) return;
-        Exposition expo = new Exposition();
-        //todo builder?
-        expo.setTheme(theme);
-        expo.setPrice(price);
-        expo.setShortDescription(shortDesc);
-        expo.setFullDescription(fullDesc);
-        ExhibitionHall hall = new ExhibitionHall();
-        hall.setId(hallId);
-        expo.setHall(hall);
+        if (hallId < 0 || price < 0) {
+            return;
+        }
 
-        expoDao.insert(expo);
+        Exposition.Builder builder = new Exposition.Builder();
+        builder.setTheme(theme)
+                .setShortDescription(shortDesc)
+                .setFullDescription(fullDesc)
+                .setPrice(price)
+                .setDate(Date.valueOf(date))
+                .setHall(new ExhibitionHall.Builder().setId(hallId).build());
+        expoDao.insert(builder.build());
     }
 
-    public void delete(String expoIdStr){
-        if(!Utils.isNumber(expoIdStr)) return;
+    public void delete(String expoIdStr) {
+        if (!Utils.isNumber(expoIdStr)) return;
         int expoId = Integer.parseInt(expoIdStr);
-        if(expoId < 0) return;
-        Exposition expo = new Exposition();
-        expo.setId(expoId);
-        expoDao.delete(expo);
+        if (expoId < 0) return;
+        expoDao.delete(new Exposition.Builder().setId(expoId).build());
     }
 
     public void update(String expoIdStr, String theme, String shortDesc,
-                       String fullDesc, String priceStr, String hallIdSrt){
-        if(!Utils.isNotNull(theme,shortDesc)){
+                       String fullDesc, String priceStr, String date, String hallIdSrt) {
+        if (!Utils.isNotNull(theme, shortDesc, date)) {
             return;
         }
-        if(!Utils.isNumber(expoIdStr) || !Utils.isNumber(priceStr) || !Utils.isNumber(hallIdSrt)){
+        if (!Utils.isNumber(expoIdStr) || !Utils.isNumber(priceStr) || !Utils.isNumber(hallIdSrt)) {
             return;
         }
         int price = Integer.parseInt(priceStr);
-        if(price < 0) return;
         int expoId = Integer.parseInt(expoIdStr);
-        if(expoId < 0) return;
         int hallId = Integer.parseInt(hallIdSrt);
-        if(hallId < 0) return;
-        Exposition expo = new Exposition();
-        //todo builder?
-        expo.setId(expoId);
-        expo.setTheme(theme);
-        expo.setPrice(price);
-        expo.setShortDescription(shortDesc);
-        expo.setFullDescription(fullDesc);
-        ExhibitionHall hall = new ExhibitionHall();
-        hall.setId(hallId);
-        expo.setHall(hall);
-        expoDao.update(expo);
+        if (hallId < 0 || price < 0 || expoId < 0) {
+            return;
+        }
+        Exposition.Builder builder = new Exposition.Builder();
+        builder.setId(expoId)
+                .setDate(Date.valueOf(date))
+                .setTheme(theme)
+                .setShortDescription(shortDesc)
+                .setFullDescription(fullDesc)
+                .setHall(new ExhibitionHall.Builder().setId(hallId).build())
+                .setPrice(price);
+        expoDao.update(builder.build());
     }
 
-    public List<Exposition> getExpositions(){
+    public List<Exposition> getExpositions() {
         return expoDao.getAll();
     }
 
     public Exposition getExposition(String expoId) {
-        System.out.println("-- str id " + expoId);
-        if(Utils.isNumber(expoId)){
-            System.out.println("It`s number");
+        if (Utils.isNumber(expoId)) {
             return expoDao.getById(Integer.parseInt(expoId));
         }
         return null;

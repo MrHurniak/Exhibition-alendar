@@ -9,11 +9,11 @@ import java.util.Map;
 public class ExhibitionHallMapper implements ObjectMapper<ExhibitionHall> {
     @Override
     public ExhibitionHall extractFromResultSet(ResultSet resultSet) throws SQLException {
-        ExhibitionHall hall = new ExhibitionHall();
-        hall.setId(resultSet.getInt("exhibitionHalls.id"));
-        hall.setName(resultSet.getString("exhibitionHalls.name"));
-        hall.setInformation(resultSet.getString("exhibitionHalls.information"));
-        return hall;
+        return new ExhibitionHall.Builder()
+                .setId(resultSet.getInt("exhibitionHalls.id"))
+                .setName(resultSet.getString("exhibitionHalls.name"))
+                .setInformation(resultSet.getString("exhibitionHalls.information"))
+                .build();
     }
 
     @Override

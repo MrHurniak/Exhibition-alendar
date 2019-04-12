@@ -56,9 +56,9 @@ public class JDBCUserDao implements GenericDAO<User> {
         }
         return null;
     }
-
+    //make case sensitive query to DB
     public User getByLogin(String login) {
-        String query = "SELECT * FROM ExpositionProject.users where users.login = ?;";
+        String query = "SELECT * FROM ExpositionProject.users where BINARY users.login = ?;";
         ResultSet resultSet;
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setString(1, login);
