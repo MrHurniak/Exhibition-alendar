@@ -9,6 +9,21 @@ import java.util.Map;
 
 public class UserMapper implements ObjectMapper<User> {
 
+    private static volatile UserMapper instance;
+
+    private UserMapper(){}
+
+    public static UserMapper getInstance(){
+        if(instance == null){
+            synchronized (ExpositionMapper.class){
+                if(instance == null){
+                    instance = new UserMapper();
+                }
+            }
+        }
+        return instance;
+    }
+
     @Override
     public User extractFromResultSet(ResultSet resultSet) throws SQLException {
         return new User.Builder()

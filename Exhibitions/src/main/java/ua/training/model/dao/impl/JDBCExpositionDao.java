@@ -20,10 +20,10 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     private Connection connection;
     private ExhibitionHallMapper hallMapper;
 
-    public JDBCExpositionDao(Connection connection, ExpositionMapper expoMapper, ExhibitionHallMapper hallMapper){
+    public JDBCExpositionDao(Connection connection){
         this.connection = connection;
-        this.expoMapper = expoMapper;
-        this.hallMapper = hallMapper;
+        this.expoMapper = ExpositionMapper.getInstance();
+        this.hallMapper = ExhibitionHallMapper.getInstance();
     }
 
     @Override

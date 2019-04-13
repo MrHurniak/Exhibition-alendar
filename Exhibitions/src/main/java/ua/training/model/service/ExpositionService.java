@@ -13,8 +13,9 @@ public class ExpositionService {
 
     private static volatile ExpositionService instance;
 
-    private int postOnPage = 3;
+    private int postOnPage = 5;
     private JDBCExpositionDao expoDao = DaoFactory.getInstance().createExpositionDao();
+    private HallsService hallsService = HallsService.getInstance();
 
 
     private ExpositionService(){}
@@ -53,15 +54,10 @@ public class ExpositionService {
 
 
     public int getNumberOfPages(String hallId) {
-        int noOfPages;
-        int noOfRows;
-        if (Utils.isNumber(hallId)) {
-            int id = Integer.parseInt(hallId);
-            noOfRows = expoDao.getNumberRows(id);
-        } else {
-            noOfRows = expoDao.getNumberRows();
-        }
-        noOfPages = noOfRows / postOnPage;
+        int noOfRows = Utils.isNumber(hallId)
+                ? hallsService.getNumberOfRows(Integer.parseInt(hallId))
+                : hallsService.getNumberOfRows();
+        int noOfPages = noOfRows / postOnPage;
         if ((noOfRows % postOnPage) != 0) {
             noOfPages++;
         }
@@ -132,5 +128,13 @@ public class ExpositionService {
             return expoDao.getById(Integer.parseInt(expoId));
         }
         return null;
+    }
+
+    public int getPostOnPage() {
+        return postOnPage;
+    }
+
+    public void setPostOnPage(int postOnPage) {
+        this.postOnPage = postOnPage;
     }
 }

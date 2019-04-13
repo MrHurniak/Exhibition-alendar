@@ -16,9 +16,9 @@ public class JDBCExhibitionHallDao implements GenericDAO<ExhibitionHall> {
     private Connection connection;
     private ExhibitionHallMapper hallMapper;
 
-    public JDBCExhibitionHallDao(Connection connection, ExhibitionHallMapper hallMapper){
+    public JDBCExhibitionHallDao(Connection connection){
         this.connection = connection;
-        this.hallMapper = hallMapper;
+        this.hallMapper = ExhibitionHallMapper.getInstance();
     }
 
     @Override

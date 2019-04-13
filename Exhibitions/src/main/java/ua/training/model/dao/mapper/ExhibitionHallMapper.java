@@ -7,6 +7,22 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class ExhibitionHallMapper implements ObjectMapper<ExhibitionHall> {
+
+    private static volatile ExhibitionHallMapper instance;
+
+    private ExhibitionHallMapper(){}
+
+    public static ExhibitionHallMapper getInstance(){
+        if(instance == null){
+            synchronized (ExhibitionHallMapper.class){
+                if(instance == null){
+                    instance = new ExhibitionHallMapper();
+                }
+            }
+        }
+        return instance;
+    }
+
     @Override
     public ExhibitionHall extractFromResultSet(ResultSet resultSet) throws SQLException {
         return new ExhibitionHall.Builder()

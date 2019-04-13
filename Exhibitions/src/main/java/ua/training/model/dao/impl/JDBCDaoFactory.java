@@ -1,9 +1,6 @@
 package ua.training.model.dao.impl;
 
 import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.mapper.ExhibitionHallMapper;
-import ua.training.model.dao.mapper.ExpositionMapper;
-import ua.training.model.dao.mapper.UserMapper;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -13,15 +10,9 @@ public class JDBCDaoFactory extends DaoFactory {
 
     private DataSource dataSource;
 
-    private UserMapper userMapper;
-    private ExpositionMapper expositionMapper;
-    private ExhibitionHallMapper hallMapper;
 
     public JDBCDaoFactory(){
         dataSource = ConnectionPoolHolder.getDataSource();
-        userMapper = new UserMapper();
-        hallMapper = new ExhibitionHallMapper();
-        expositionMapper = new ExpositionMapper();
 
     }
 
@@ -36,22 +27,22 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public JDBCUserDao createUserDao() {
-        return new JDBCUserDao(getConnection(), userMapper);
+        return new JDBCUserDao(getConnection());
     }
 
     @Override
     public JDBCExhibitionHallDao createExhibitionHallDao() {
-        return new JDBCExhibitionHallDao(getConnection(), hallMapper);
+        return new JDBCExhibitionHallDao(getConnection());
     }
 
     @Override
     public JDBCExpositionDao createExpositionDao() {
-        return new JDBCExpositionDao(getConnection(), expositionMapper, hallMapper);
+        return new JDBCExpositionDao(getConnection());
     }
 
     @Override
     public JDBCTicketDao createTicketDao() {
-        return new JDBCTicketDao(getConnection(), userMapper, expositionMapper, hallMapper);
+        return new JDBCTicketDao(getConnection());
     }
 
 }

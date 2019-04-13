@@ -2,25 +2,32 @@ package ua.training.model.service;
 
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.impl.JDBCExhibitionHallDao;
+import ua.training.model.dao.impl.JDBCExpositionDao;
 import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.service.util.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HallsService {
 
     private static volatile HallsService instance;
     private JDBCExhibitionHallDao hallDao = DaoFactory.getInstance().createExhibitionHallDao();
+    private JDBCExpositionDao expoDao = DaoFactory.getInstance().createExpositionDao();
     private List<ExhibitionHall> halls;
+    private Map<Integer, Integer> rowsByHall = new HashMap<>();
 
-    private HallsService(){
-        updateList();
+
+    private HallsService() {
+        halls = hallDao.getAll();
+        rowsByHall.put(-1, expoDao.getNumberRows());
     }
 
-    public static HallsService getInstance(){
-        if(instance == null){
-            synchronized (HallsService.class){
-                if(instance == null){
+    public static HallsService getInstance() {
+        if (instance == null) {
+            synchronized (HallsService.class) {
+                if (instance == null) {
                     instance = new HallsService();
                 }
             }
@@ -29,31 +36,33 @@ public class HallsService {
     }
 
 
-    public void add(String name, String info){
-        if(name != null && info != null) {
+    public void add(String name, String info) {
+        if (name != null && info != null) {
             ExhibitionHall hall = new ExhibitionHall();
             hall.setName(name);
             hall.setInformation(info);
             hallDao.insert(hall);
-            updateList();
+            updateList(hall);
         }
     }
 
-    public void delete(String idStr){
-        if(Utils.isNumber(idStr)){
+    public void delete(String idStr) {
+        if (Utils.isNumber(idStr)) {
             int id = Integer.parseInt(idStr);
-            if(id < 0) return;
+            if (id < 0) return;
             ExhibitionHall hall = new ExhibitionHall();
             hall.setId(id);
             hallDao.delete(hall);
-            updateList();
+            updateList(hall);
+            rowsByHall.remove(hall.getId());
         }
     }
 
-    public void update(String idStr, String name, String info){
-        if(name != null && info != null && Utils.isNumber(idStr)){
-            hallDao.update(new ExhibitionHall(Integer.parseInt(idStr), name, info));
-            updateList();
+    public void update(String idStr, String name, String info) {
+        if (name != null && info != null && Utils.isNumber(idStr)) {
+            ExhibitionHall hall = new ExhibitionHall(Integer.parseInt(idStr), name, info);
+            hallDao.update(hall);
+            updateList(hall);
         }
     }
 
@@ -61,7 +70,22 @@ public class HallsService {
         return halls;
     }
 
-    private void updateList(){
+    public int getNumberOfRows(int hallId) {
+        if (rowsByHall.containsKey(hallId)) {
+            return rowsByHall.get(hallId);
+        }
+        int rows = expoDao.getNumberRows(hallId);
+        rowsByHall.put(hallId, rows);
+        return rows;
+    }
+
+    public int getNumberOfRows() {
+        return rowsByHall.get(-1);
+    }
+
+    private void updateList(ExhibitionHall hall) {
         halls = hallDao.getAll();
+        rowsByHall.put(hall.getId(), expoDao.getNumberRows(hall.getId()));
+        rowsByHall.put(-1, expoDao.getNumberRows());
     }
 }

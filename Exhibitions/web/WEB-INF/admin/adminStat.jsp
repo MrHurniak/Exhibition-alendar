@@ -14,7 +14,7 @@
                 </ul>
             </div>
             <div class="col-md-6 col-sm-12">
-                <h4>smth else</h4>
+                <h4><b>Total number of expositions:</b>  <c:out value="${requestScope['totalExpositions']}"/></h4>
             </div>
         </div>
     </div>

@@ -8,6 +8,20 @@ import java.sql.SQLException;
 import java.util.Map;
 
 public class ExpositionMapper implements ObjectMapper<Exposition> {
+    private static volatile ExpositionMapper instance;
+
+    private ExpositionMapper(){}
+
+    public static ExpositionMapper getInstance(){
+        if(instance == null){
+            synchronized (ExpositionMapper.class){
+                if(instance == null){
+                    instance = new ExpositionMapper();
+                }
+            }
+        }
+        return instance;
+    }
 
     @Override
     public Exposition extractFromResultSet(ResultSet resultSet) throws SQLException {

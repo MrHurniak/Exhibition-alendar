@@ -18,6 +18,7 @@ public class Servlet extends HttpServlet {
 
     public void init(ServletConfig config){
         config.getServletContext().setAttribute("loggedUsers", new HashSet<String>());
+        System.out.println("in servlet init method.");
         commands = new HashMap<>();
         commands.put("logout", new LogOut());
         commands.put("login", new LogIn());
@@ -27,7 +28,6 @@ public class Servlet extends HttpServlet {
         commands.put("r/admin/stat",new AdminPage());
         commands.put("r/admin/halls", new AdminHalls());
         commands.put("r/admin/expositions", new AdminExpo());
-        commands.put("r/admin/main", new AdminMain());
         commands.put("r/user/buy", new Buy());
         commands.put("r/user/buy/payment/conf", new PaymentConfirm());
         commands.put("error", e -> "/WEB-INF/error.jsp");

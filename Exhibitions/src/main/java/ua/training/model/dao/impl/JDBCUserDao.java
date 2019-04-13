@@ -16,9 +16,9 @@ public class JDBCUserDao implements GenericDAO<User> {
     private Connection connection;
     private UserMapper userMapper;
 
-    public JDBCUserDao(Connection connection, UserMapper userMapper){
+    public JDBCUserDao(Connection connection){
         this.connection = connection;
-        this.userMapper = userMapper;
+        this.userMapper = UserMapper.getInstance();
     }
 
     @Override

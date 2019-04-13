@@ -24,12 +24,11 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
     private ExpositionMapper expoMapper;
     private ExhibitionHallMapper hallMapper;
 
-    public JDBCTicketDao(Connection connection,
-                         UserMapper userMapper, ExpositionMapper expoMapper, ExhibitionHallMapper hallMapper) {
+    public JDBCTicketDao(Connection connection) {
         this.connection = connection;
-        this.userMapper = userMapper;
-        this.expoMapper = expoMapper;
-        this.hallMapper = hallMapper;
+        this.userMapper = UserMapper.getInstance();
+        this.expoMapper = ExpositionMapper.getInstance();
+        this.hallMapper = ExhibitionHallMapper.getInstance();
     }
 
     @Override
