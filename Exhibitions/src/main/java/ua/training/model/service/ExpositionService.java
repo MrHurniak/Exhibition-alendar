@@ -1,7 +1,6 @@
 package ua.training.model.service;
 
 import ua.training.model.dao.DaoFactory;
-import ua.training.model.dao.impl.JDBCExhibitionHallDao;
 import ua.training.model.dao.impl.JDBCExpositionDao;
 import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.entity.Exposition;
@@ -11,9 +10,25 @@ import java.sql.Date;
 import java.util.List;
 
 public class ExpositionService {
+
+    private static volatile ExpositionService instance;
+
     private int postOnPage = 3;
     private JDBCExpositionDao expoDao = DaoFactory.getInstance().createExpositionDao();
-    private JDBCExhibitionHallDao hallDao = DaoFactory.getInstance().createExhibitionHallDao();
+
+
+    private ExpositionService(){}
+
+    public static ExpositionService getInstance(){
+        if(instance == null){
+            synchronized (ExpositionService.class){
+                if(instance == null){
+                    instance = new ExpositionService();
+                }
+            }
+        }
+        return instance;
+    }
 
 
     public List<Exposition> getExpoList(String currentPage, String hallId) {
@@ -36,9 +51,6 @@ public class ExpositionService {
         }
     }
 
-    public List<ExhibitionHall> getHalls() {
-        return hallDao.getAll();
-    }
 
     public int getNumberOfPages(String hallId) {
         int noOfPages;

@@ -25,19 +25,20 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
     private ExhibitionHallMapper hallMapper;
 
     public JDBCTicketDao(Connection connection,
-                         UserMapper userMapper, ExpositionMapper expoMapper) {
+                         UserMapper userMapper, ExpositionMapper expoMapper, ExhibitionHallMapper hallMapper) {
         this.connection = connection;
         this.userMapper = userMapper;
         this.expoMapper = expoMapper;
-        this.hallMapper = expoMapper.getHallMapper();
+        this.hallMapper = hallMapper;
     }
 
     @Override
     public void insert(Ticket ticket) {
-        String query = "insert into ExpositionProject.tickets (user_id, exposition_id) values (?, ?);";
+        String query = "insert into ExpositionProject.tickets (user_id, exposition_id, count) values (?, ?, ?);";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, ticket.getUser().getId());
             statement.setInt(2, ticket.getExposition().getId());
+            statement.setInt(3, ticket.getCount());
             statement.executeUpdate();
         } catch (SQLException e){
             //todo log
@@ -57,17 +58,16 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                //todo separate method
+            if (resultSet.next()){
                 User user = userMapper.extractFromResultSet(resultSet);
                 Exposition expo = expoMapper.extractFromResultSet(resultSet);
                 expo.setHall(hallMapper.extractFromResultSet(resultSet));
-                Ticket ticket = new Ticket();
-                ticket.setId(resultSet.getInt("tickets.id"));
-                ticket.setUser(user);
-                ticket.setExposition(expo);
-
-                return ticket;
+                return new Ticket.Builder()
+                        .setId(resultSet.getInt("tickets.id"))
+                        .setCount(resultSet.getInt("tickets.id"))
+                        .setUser(user)
+                        .setExposition(expo)
+                        .build();
             }
         } catch (SQLException e){
             //todo log
@@ -102,30 +102,40 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         }
     }
 
-    public List<Exposition> getUserExposition(User user){
-        List<Exposition> expoList = new ArrayList<>();
-//        Map<Integer, Exposition> expoMap = new HashMap<>();
+    public List<Ticket> getUserTickets(User user){
+        List<Ticket> ticketList = new ArrayList<>();
+        Map<Integer, Exposition> expoMap = new HashMap<>();
         Map<Integer, ExhibitionHall> hallMap = new HashMap<>();
-        Exposition expo;
-        ExhibitionHall hall;
+        Exposition expoTemp;
+        ExhibitionHall hallTemp;
+        int count;
 
         ResultSet resultSet;
-        String query = "SELECT * FROM ExpositionProject.tickets " +
+        String query = "SELECT  user_id, exposition_id, sum(count) as count, users.*, expositions.*, exhibitionHalls.* " +
+                "FROM ExpositionProject.tickets join users on tickets.user_id = users.id " +
                 "join expositions on tickets.exposition_id = expositions.id " +
                 "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where user_id = ?;";
+                "where tickets.user_id = ? " +
+                "group by exposition_id ;";
         try(PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, user.getId());
             resultSet = statement.executeQuery();
             while (resultSet.next()){
-                expo = expoMapper.extractFromResultSet(resultSet);
-                hall = hallMapper.extractFromResultSet(resultSet);
-                hall = hallMapper.makeUnique(hallMap, hall);
-//                expo = expoMapper.makeUnique(expoMap, expo);
-                expo.setHall(hall);
-                expoList.add(expo);
+                expoTemp = expoMapper.extractFromResultSet(resultSet);
+                hallTemp = hallMapper.extractFromResultSet(resultSet);
+                hallTemp = hallMapper.makeUnique(hallMap, hallTemp);
+                expoTemp = expoMapper.makeUnique(expoMap, expoTemp);
+                expoTemp.setHall(hallTemp);
+                count = resultSet.getInt("count");
+                System.out.println(count + " count of tickets");
+                ticketList.add(new Ticket.Builder()
+                        .setId(-1)
+                        .setCount(count)
+                        .setUser(user)
+                        .setExposition(expoTemp)
+                        .build());
             }
-            return expoList;
+            return ticketList;
         } catch (SQLException e){
             //todo log
             throw new RuntimeException(e);
@@ -145,7 +155,6 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         User user;
         Exposition expo;
         ExhibitionHall hall;
-        Ticket ticket;
 
         ResultSet resultSet;
 
@@ -157,7 +166,6 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 //todo separate method
-                ticket = new Ticket();
                 user = userMapper.extractFromResultSet(resultSet);
                 expo = expoMapper.extractFromResultSet(resultSet);
                 hall = hallMapper.extractFromResultSet(resultSet);
@@ -166,11 +174,12 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
                 hall = hallMapper.makeUnique(hallMap, hall);
                 expo = expoMapper.makeUnique(expoMap, expo);
                 expo.setHall(hall);
-
-                ticket.setId(resultSet.getInt("tickets.id"));
-                ticket.setUser(user);
-                ticket.setExposition(expo);
-                ticketList.add(ticket);
+                Ticket.Builder builder = new Ticket.Builder();
+                builder.setId(resultSet.getInt("tickets.id"))
+                        .setCount(resultSet.getInt("tickets.count"))
+                        .setUser(user)
+                        .setExposition(expo);
+                ticketList.add(builder.build());
             }
             return ticketList;
         } catch (SQLException e){

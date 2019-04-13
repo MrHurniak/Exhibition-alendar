@@ -10,8 +10,8 @@ import java.util.Optional;
 public class LogIn implements Command {
     private UserService userService;
 
-    public LogIn(UserService userService) {
-        this.userService = userService;
+    public LogIn() {
+        this.userService = UserService.getInstance();
     }
 
     @Override

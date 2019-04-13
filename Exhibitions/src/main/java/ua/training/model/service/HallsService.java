@@ -8,8 +8,26 @@ import ua.training.model.service.util.Utils;
 import java.util.List;
 
 public class HallsService {
-    //todo save all hall in list. Make request only when admin smth change
-    JDBCExhibitionHallDao hallDao = DaoFactory.getInstance().createExhibitionHallDao();
+
+    private static volatile HallsService instance;
+    private JDBCExhibitionHallDao hallDao = DaoFactory.getInstance().createExhibitionHallDao();
+    private List<ExhibitionHall> halls;
+
+    private HallsService(){
+        updateList();
+    }
+
+    public static HallsService getInstance(){
+        if(instance == null){
+            synchronized (HallsService.class){
+                if(instance == null){
+                    instance = new HallsService();
+                }
+            }
+        }
+        return instance;
+    }
+
 
     public void add(String name, String info){
         if(name != null && info != null) {
@@ -17,6 +35,7 @@ public class HallsService {
             hall.setName(name);
             hall.setInformation(info);
             hallDao.insert(hall);
+            updateList();
         }
     }
 
@@ -27,16 +46,22 @@ public class HallsService {
             ExhibitionHall hall = new ExhibitionHall();
             hall.setId(id);
             hallDao.delete(hall);
+            updateList();
         }
     }
 
     public void update(String idStr, String name, String info){
         if(name != null && info != null && Utils.isNumber(idStr)){
             hallDao.update(new ExhibitionHall(Integer.parseInt(idStr), name, info));
+            updateList();
         }
     }
 
     public List<ExhibitionHall> getHalls() {
-        return hallDao.getAll();
+        return halls;
+    }
+
+    private void updateList(){
+        halls = hallDao.getAll();
     }
 }

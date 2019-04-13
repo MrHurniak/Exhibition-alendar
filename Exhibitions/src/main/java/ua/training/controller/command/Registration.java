@@ -1,17 +1,14 @@
 package ua.training.controller.command;
 
-import ua.training.model.entity.User;
-import ua.training.model.entity.enums.Role;
 import ua.training.model.exceptions.NotUniqLoginException;
 import ua.training.model.service.UserService;
-
 import javax.servlet.http.HttpServletRequest;
 
 public class Registration implements Command {
     private UserService userService;
 
-    public Registration(UserService userService){
-        this.userService = userService;
+    public Registration(){
+        this.userService = UserService.getInstance();
     }
     @Override
     public String execute(HttpServletRequest request) {
@@ -20,7 +17,6 @@ public class Registration implements Command {
         }
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-//        String role = Role.USER.name();/*request.getParameter("role");*/
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String login = request.getParameter("login");
@@ -37,11 +33,5 @@ public class Registration implements Command {
             return "/registration.jsp";
         }
         return "redirect:/app/r/exposition";
-//
-//        if(userService.validateData(user)){
-//            userService.createUser(user);
-//            return "redirect:/app/r/exposition";
-//        }
-//        return "/registration.jsp";
     }
 }

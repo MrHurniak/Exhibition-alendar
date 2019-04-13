@@ -7,14 +7,16 @@ public class Ticket implements Serializable {
     private int id;
     private User user;
     private Exposition exposition;
+    private int count;
 
     public Ticket() {
     }
 
-    public Ticket(int id, User user, Exposition exposition) {
+    public Ticket(int id, User user, Exposition exposition, int count) {
         this.id = id;
         this.user = user;
         this.exposition = exposition;
+        this.count = count;
     }
     public Ticket(User user, Exposition exposition){
         this.user = user;
@@ -46,8 +48,18 @@ public class Ticket implements Serializable {
         this.exposition = exposition;
     }
 
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public static class Builder{
         private int id;
+        private int count;
         private User user;
         private Exposition exposition;
 
@@ -66,24 +78,14 @@ public class Ticket implements Serializable {
             return this;
         }
 
-        public Ticket build(){
-            return new Ticket(id, user, exposition);
+        public Builder setCount(int count){
+            this.count = count;
+            return this;
         }
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ticket ticket = (Ticket) o;
-        return id == ticket.id &&
-                Objects.equals(user, ticket.user) &&
-                Objects.equals(exposition, ticket.exposition);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, user, exposition);
+        public Ticket build(){
+            return new Ticket(id, user, exposition, count);
+        }
     }
 
     @Override
@@ -92,6 +94,23 @@ public class Ticket implements Serializable {
                 "id=" + id +
                 ", user=" + user +
                 ", exposition=" + exposition +
+                ", count=" + count +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.id &&
+                count == ticket.count &&
+                Objects.equals(user, ticket.user) &&
+                Objects.equals(exposition, ticket.exposition);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, user, exposition, count);
     }
 }

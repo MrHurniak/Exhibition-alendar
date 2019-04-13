@@ -2,7 +2,6 @@ package ua.training.controller.command;
 
 import ua.training.model.entity.Exposition;
 import ua.training.model.service.ExpositionService;
-import ua.training.model.service.UserService;
 import ua.training.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +10,8 @@ public class Buy implements Command {
 
     private ExpositionService expoService;
 
-    public Buy(ExpositionService expoService){
-        this.expoService = expoService;
+    public Buy(){
+        this.expoService = ExpositionService.getInstance();
     }
     @Override
     public String execute(HttpServletRequest request) {

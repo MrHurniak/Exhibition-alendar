@@ -1,6 +1,5 @@
 package ua.training.controller.command;
 
-import com.mysql.cj.Session;
 import ua.training.model.entity.Exposition;
 import ua.training.model.service.UserService;
 
@@ -10,8 +9,8 @@ import javax.servlet.http.HttpSession;
 public class PaymentConfirm implements Command {
     private UserService userService;
 
-    public PaymentConfirm(UserService userService){
-        this.userService = userService;
+    public PaymentConfirm(){
+        this.userService = UserService.getInstance();
     }
     @Override
     public String execute(HttpServletRequest request) {

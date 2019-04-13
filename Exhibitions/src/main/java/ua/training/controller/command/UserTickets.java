@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 public class UserTickets implements Command {
     private UserService userService;
 
-    public UserTickets(UserService service){
-        this.userService = service;
+    public UserTickets(){
+        this.userService = UserService.getInstance();
     }
 
     @Override

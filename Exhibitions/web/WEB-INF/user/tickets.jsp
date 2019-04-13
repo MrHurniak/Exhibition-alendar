@@ -27,9 +27,10 @@
                     <c:forEach items="${requestScope['tickets']}" var="elem">
                         <div class="card my-1">
                             <div class="card-body">
-                                <h5 class="card-title" style="text-align: left;"><a href="#"><c:out value="${elem.theme}"/></a></h5>
-                                <p class="card-text"><c:out value="${elem.shortDescription}"/></p>
-                                <p class="card-text"><c:out value="${elem.price}"/>$</p>
+                                <h5 class="card-title" style="text-align: left;"><a href="#"><c:out value="${elem.exposition.theme}"/></a></h5>
+                                <p class="card-text"><c:out value="${elem.exposition.shortDescription}"/></p>
+                                <p class="card-text"><c:out value="${elem.exposition.price}"/>$</p>
+                                <p class="card-text"><c:out value="${elem.count}"/></p>
                             </div>
                         </div>
                     </c:forEach>

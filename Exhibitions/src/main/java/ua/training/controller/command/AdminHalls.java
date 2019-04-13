@@ -3,7 +3,6 @@ package ua.training.controller.command;
 import ua.training.model.service.HallsService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -12,8 +11,8 @@ public class AdminHalls implements Command {
     private Map<String, Consumer<HttpServletRequest>> commands;
     private HallsService hallsService;
 
-    public AdminHalls(HallsService hallsService){
-        this.hallsService = hallsService;
+    public AdminHalls(){
+        this.hallsService = HallsService.getInstance();
         commands = new HashMap<>();
         commands.put("add", this::add);
         commands.put("update", this::update);
@@ -35,12 +34,8 @@ public class AdminHalls implements Command {
     }
 
     private void add(HttpServletRequest request){
-        try {
-            request.setCharacterEncoding("UTF-8");
-        } catch (java.lang.Exception e){}
         String name = request.getParameter("name");
         String info = request.getParameter("information");
-        System.out.println(name + " " + info);
         hallsService.add(name, info);
     }
 

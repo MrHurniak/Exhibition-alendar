@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.model.service.ExpositionService;
+import ua.training.model.service.HallsService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -8,13 +9,14 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class AdminExpo implements Command {
-
+    private HallsService hallsService;
     private ExpositionService expoService;
     private Map<String, Consumer<HttpServletRequest>> commands;
 
-    public AdminExpo(ExpositionService expoService){
-        commands = new HashMap<>();
-        this.expoService = expoService;
+    public AdminExpo(){
+        this.commands = new HashMap<>();
+        this.expoService = ExpositionService.getInstance();
+        this.hallsService = HallsService.getInstance();
         commands.put("add",this::add);
         commands.put("delete", this::delete);
         commands.put("update", this::update);
@@ -22,7 +24,7 @@ public class AdminExpo implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         Consumer<HttpServletRequest> command = commands.get(request.getParameter("command"));
-        request.setAttribute("halls", expoService.getHalls());
+        request.setAttribute("halls", hallsService.getHalls());
         request.setAttribute("adminPage","/WEB-INF/admin/adminExpositions.jsp");
         if(command != null){
             command.accept(request);
@@ -40,7 +42,6 @@ public class AdminExpo implements Command {
         String price = request.getParameter("price");
         String hallId = request.getParameter("hall_id");
         String date = request.getParameter("date");
-        System.out.println(date + " - Date");
         expoService.add(theme, shortDescription, fullDescription, price,date, hallId);
     }
 

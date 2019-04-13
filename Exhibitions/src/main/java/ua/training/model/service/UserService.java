@@ -15,14 +15,26 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserService {
+    private static volatile UserService instance;
     private JDBCUserDao userDao;
     private JDBCTicketDao ticketDao;
     private HashingPasswordUtil hashingUtil;
 
-    public UserService(){
+    private UserService(){
         userDao = DaoFactory.getInstance().createUserDao();
         ticketDao = DaoFactory.getInstance().createTicketDao();
         hashingUtil = new HashingPasswordUtil();
+    }
+
+    public static UserService getInstance(){
+        if(instance == null){
+            synchronized (UserService.class){
+                if(instance == null){
+                    instance = new UserService();
+                }
+            }
+        }
+        return instance;
     }
 
 
@@ -47,20 +59,16 @@ public class UserService {
         userDao.insert(builder.build());
     }
 
-    public List<Exposition> getUserTickets(User user){
-        return ticketDao.getUserExposition(user);
+    public List<Ticket> getUserTickets(User user){
+        return ticketDao.getUserTickets(user);
     }
 
-    public void buyTickets(User user, Exposition exposition, int tickets){
-        if(tickets > 0 && tickets < 26) {
-            for (int i = 0; i < tickets; i++) {
-                ticketDao.insert(new Ticket
-                        .Builder()
-                        .setUser(user)
-                        .setExposition(exposition)
-                        .build());
-            }
-        }
+    public void buyTickets(User user, Exposition exposition, int count){
+            ticketDao.insert(new Ticket.Builder()
+                    .setCount(count)
+                    .setUser(user)
+                    .setExposition(exposition)
+                    .build());
     }
 
     public Optional<User> getByLogin(String login){

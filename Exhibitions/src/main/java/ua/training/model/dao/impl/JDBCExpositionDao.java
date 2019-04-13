@@ -1,6 +1,7 @@
 package ua.training.model.dao.impl;
 
 import ua.training.model.dao.GenericDAO;
+import ua.training.model.dao.mapper.ExhibitionHallMapper;
 import ua.training.model.dao.mapper.ExpositionMapper;
 import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.entity.Exposition;
@@ -17,10 +18,12 @@ import java.util.Map;
 public class JDBCExpositionDao implements GenericDAO<Exposition> {
     private ExpositionMapper expoMapper;
     private Connection connection;
+    private ExhibitionHallMapper hallMapper;
 
-    public JDBCExpositionDao(Connection connection, ExpositionMapper expoMapper){
+    public JDBCExpositionDao(Connection connection, ExpositionMapper expoMapper, ExhibitionHallMapper hallMapper){
         this.connection = connection;
         this.expoMapper = expoMapper;
+        this.hallMapper = hallMapper;
     }
 
     @Override
@@ -53,7 +56,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
             resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Exposition expo = expoMapper.extractFromResultSet(resultSet);
-                expo.setHall(expoMapper.getHallMapper().extractFromResultSet(resultSet));
+                expo.setHall(hallMapper.extractFromResultSet(resultSet));
                 return expo;
             }
         } catch (SQLException e){
@@ -176,8 +179,8 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
         Exposition tempExpo;
         resultSet = statement.executeQuery();
         while (resultSet.next()){
-            tempHall = expoMapper.getHallMapper().extractFromResultSet(resultSet);
-            tempHall = expoMapper.getHallMapper().makeUnique(hallsMap, tempHall);
+            tempHall = hallMapper.extractFromResultSet(resultSet);
+            tempHall = hallMapper.makeUnique(hallsMap, tempHall);
             tempExpo = expoMapper.extractFromResultSet(resultSet);
             tempExpo.setHall(tempHall);
             list.add(tempExpo);

@@ -11,16 +11,18 @@ import java.sql.SQLException;
 
 public class JDBCDaoFactory extends DaoFactory {
 
-    private DataSource dataSource = ConnectionPoolHolder.getDataSource();
+    private DataSource dataSource;
 
     private UserMapper userMapper;
     private ExpositionMapper expositionMapper;
     private ExhibitionHallMapper hallMapper;
 
     public JDBCDaoFactory(){
+        dataSource = ConnectionPoolHolder.getDataSource();
         userMapper = new UserMapper();
         hallMapper = new ExhibitionHallMapper();
-        expositionMapper = new ExpositionMapper(hallMapper);
+        expositionMapper = new ExpositionMapper();
+
     }
 
     private Connection getConnection(){
@@ -44,12 +46,12 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public JDBCExpositionDao createExpositionDao() {
-        return new JDBCExpositionDao(getConnection(), expositionMapper);
+        return new JDBCExpositionDao(getConnection(), expositionMapper, hallMapper);
     }
 
     @Override
     public JDBCTicketDao createTicketDao() {
-        return new JDBCTicketDao(getConnection(), userMapper, expositionMapper);
+        return new JDBCTicketDao(getConnection(), userMapper, expositionMapper, hallMapper);
     }
 
 }
