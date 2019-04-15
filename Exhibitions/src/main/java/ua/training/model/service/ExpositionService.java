@@ -95,11 +95,7 @@ public class ExpositionService {
         if (expoId < 0) return;
         expoDao.saveDelete(new Exposition.Builder().setId(expoId).build());
     }
-
-    public void deleteByHallId(int hallId){
-        expoDao.saveDeleteByHallId(hallId);
-    }
-
+    
     public void update(String expoIdStr, String theme, String shortDesc,
                        String fullDesc, String priceStr, String date, String date_to, String hallIdSrt) {
         if (!Utils.isNotNull(theme, shortDesc, date)) {
@@ -127,7 +123,7 @@ public class ExpositionService {
     }
 
     public List<Exposition> getExpositions() {
-        return expoDao.getAll();
+        return expoDao.getAllNotDeleted();
     }
 
     public Exposition getExposition(String expoId) {

@@ -52,7 +52,7 @@ public class HallsService {
             ExhibitionHall hall = new ExhibitionHall();
             hall.setId(id);
             hallDao.saveDelete(hall);
-            ExpositionService.getInstance().deleteByHallId(id);
+//            ExpositionService.getInstance().deleteByHallId(id);
             updateList(hall);
             rowsByHall.remove(hall.getId());
         }
