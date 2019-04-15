@@ -18,7 +18,7 @@
                 <div id="logbox">
                     <form id="signup" method="post" action="${pageContext.request.contextPath}/app/login">
                         <h1><fmt:message key="page.log.in" bundle="${link}"/></h1>
-                        <h3 style="color: red"> <c:out value="${sessionScope['message']}"/></h3>
+                        <h6 style="color: red; text-align: center"> <c:out value="${sessionScope['message']}"/></h6>
                         <input name="login" type="text" placeholder="<fmt:message key="enter.login" bundle="${link}"/>"
                                class="input pass"/>
                         <input name="password" type="password" placeholder="<fmt:message key="enter.password" bundle="${link}"/>"

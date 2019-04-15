@@ -1,5 +1,7 @@
 package ua.training.model.entity;
 
+import ua.training.model.entity.enums.HallStatus;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -7,14 +9,16 @@ public class ExhibitionHall implements Serializable {
     private int id;
     private String name;
     private String information;
+    private HallStatus status = HallStatus.OK;
 
     public ExhibitionHall(){
     }
 
-    public ExhibitionHall(int id, String name, String information){
+    public ExhibitionHall(int id, String name, String information, HallStatus status){
         this.id = id;
         this.name = name;
         this.information = information;
+        this.status = status;
     }
 
     public int getId() {
@@ -41,10 +45,19 @@ public class ExhibitionHall implements Serializable {
         this.information = information;
     }
 
+    public HallStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HallStatus status) {
+        this.status = status;
+    }
+
     public static class Builder{
         private int id;
         private String name;
         private String information;
+        private HallStatus status = HallStatus.OK;
 
         public Builder setId(int id) {
             this.id = id;
@@ -61,8 +74,13 @@ public class ExhibitionHall implements Serializable {
             return this;
         }
 
+        public Builder setHallStatus(HallStatus status){
+            this.status = status;
+            return this;
+        }
+
         public ExhibitionHall build(){
-            return new ExhibitionHall(id, name, information);
+            return new ExhibitionHall(id, name, information, status);
         }
     }
 

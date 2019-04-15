@@ -29,7 +29,8 @@
                             <div class="card-body">
                                 <h5 class="card-title" style="text-align: left;"><a href="#"><c:out value="${elem.exposition.theme}"/></a></h5>
                                 <p class="card-text"><c:out value="${elem.exposition.shortDescription}"/></p>
-                                <p class="card-text"><c:out value="${elem.exposition.price}"/>$</p>
+                                <p class="card-text">Status: <c:out value="${elem.exposition.expositionStatus}"/></p>
+                                <p class="card-text"><c:out value="${elem.exposition.price}"/><fmt:message key="price.currency" bundle="${link}"/></p>
                                 <p class="card-text"><c:out value="${elem.count}"/></p>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ package ua.training.model.dao.mapper;
 
 
 import ua.training.model.entity.Exposition;
+import ua.training.model.entity.enums.ExpositionStatus;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,8 @@ public class ExpositionMapper implements ObjectMapper<Exposition> {
                 .setFullDescription(resultSet.getString("expositions.fullDescription"))
                 .setPrice(resultSet.getInt("expositions.price"))
                 .setDate(resultSet.getDate("expositions.date"))
+                .setDateTo(resultSet.getDate("expositions.date_to"))
+                .setExpositionStatus(ExpositionStatus.valueOf(resultSet.getString("expositions.state")))
                 .build();
     }
 

@@ -1,5 +1,7 @@
 package ua.training.model.entity;
 
+import ua.training.model.entity.enums.ExpositionStatus;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
@@ -11,21 +13,25 @@ public class Exposition implements Serializable {
     private String shortDescription;
     private String fullDescription;
     private Date date;
+    private Date date_to;
     private ExhibitionHall hall;
+    private ExpositionStatus expositionStatus = ExpositionStatus.OK;
 
     public Exposition() {
     }
 
     public Exposition(int id, int price,
                       String theme, String shortDescription,
-                      String fullDescription, Date date, ExhibitionHall hall) {
+                      String fullDescription, Date date,Date date_to, ExhibitionHall hall, ExpositionStatus expositionStatus) {
         this.id = id;
         this.price = price;
         this.theme = theme;
         this.shortDescription = shortDescription;
         this.fullDescription = fullDescription;
         this.date = date;
+        this.date_to = date_to;
         this.hall = hall;
+        this.expositionStatus = expositionStatus;
     }
 
     public int getId() {
@@ -85,6 +91,22 @@ public class Exposition implements Serializable {
         this.date = date;
     }
 
+    public ExpositionStatus getExpositionStatus() {
+        return expositionStatus;
+    }
+
+    public void setExpositionStatus(ExpositionStatus expositionStatus) {
+        this.expositionStatus = expositionStatus;
+    }
+
+    public Date getDate_to() {
+        return date_to;
+    }
+
+    public void setDate_to(Date date_to) {
+        this.date_to = date_to;
+    }
+
     public static class Builder{
         private int id;
         private int price;
@@ -92,7 +114,9 @@ public class Exposition implements Serializable {
         private String shortDescription;
         private String fullDescription;
         private Date date;
+        private Date date_to;
         private ExhibitionHall hall;
+        private ExpositionStatus expositionStatus = ExpositionStatus.OK;
 
         public Builder setId(int id) {
             this.id = id;
@@ -128,8 +152,20 @@ public class Exposition implements Serializable {
             this.hall = hall;
             return this;
         }
+
+        public Builder setExpositionStatus(ExpositionStatus expositionStatus){
+            this.expositionStatus = expositionStatus;
+            return this;
+        }
+
+
+        public Builder setDateTo(Date date_to){
+            this.date_to = date_to;
+            return this;
+        }
         public Exposition build(){
-            return new Exposition(id, price, theme, shortDescription, fullDescription, date, hall);
+            return new Exposition(id, price, theme, shortDescription
+                    , fullDescription, date, date_to, hall, expositionStatus);
         }
     }
 

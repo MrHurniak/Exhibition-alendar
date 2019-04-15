@@ -3,8 +3,6 @@ package ua.training.model.dao.impl;
 import ua.training.model.dao.DaoFactory;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 public class JDBCDaoFactory extends DaoFactory {
 
@@ -13,36 +11,26 @@ public class JDBCDaoFactory extends DaoFactory {
 
     public JDBCDaoFactory(){
         dataSource = ConnectionPoolHolder.getDataSource();
-
-    }
-
-    private Connection getConnection(){
-        try{
-            return dataSource.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
     @Override
     public JDBCUserDao createUserDao() {
-        return new JDBCUserDao(getConnection());
+        return new JDBCUserDao(dataSource);
     }
 
     @Override
     public JDBCExhibitionHallDao createExhibitionHallDao() {
-        return new JDBCExhibitionHallDao(getConnection());
+        return new JDBCExhibitionHallDao(dataSource);
     }
 
     @Override
     public JDBCExpositionDao createExpositionDao() {
-        return new JDBCExpositionDao(getConnection());
+        return new JDBCExpositionDao(dataSource);
     }
 
     @Override
     public JDBCTicketDao createTicketDao() {
-        return new JDBCTicketDao(getConnection());
+        return new JDBCTicketDao(dataSource);
     }
-
 }

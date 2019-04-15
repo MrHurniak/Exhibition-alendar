@@ -17,17 +17,25 @@
             <div id="logbox">
                 <form id="signup" method="post" action="${pageContext.request.contextPath}/app/registration">
                     <h1><fmt:message key="page.registration" bundle="${link}"/></h1>
-                    <p ><c:out value="${requestScope['message']}"/></p>
+                    <h6 style="color: red; text-align: center"><c:out value="${requestScope['message']}"/></h6>
                     <input name="name" type="text" placeholder="<fmt:message key="enter.name" bundle="${link}"/>"
-                           autofocus="autofocus" required="required" value="${requestScope['name']}" class="input pass"/>
+                           autofocus="autofocus" required="required" value="${requestScope['name']}"
+                           minlength="${requestScope['name_min']}" maxlength="${requestScope['name_max']}"
+                           title="<fmt:message key="registration.title.name" bundle="${link}"/>" class="input pass"/>
                     <input name="surname" type="text" placeholder="<fmt:message key="enter.surname" bundle="${link}"/>"
-                           autofocus="autofocus" required="required" value="${requestScope['surname']}" class="input pass"/>
+                           autofocus="autofocus" required="required" value="${requestScope['surname']}"
+                           minlength="${requestScope['surname_min']}" maxlength="${requestScope['surname_max']}"
+                           title="<fmt:message key="registration.title.name" bundle="${link}"/>" class="input pass"/>
                     <input name="email" type="email" placeholder="<fmt:message key="enter.email" bundle="${link}"/>"
                            value="${requestScope['email']}" class="input pass"/>
                     <input name="login" type="text" placeholder="<fmt:message key="enter.login" bundle="${link}"/>"
-                           required="required" class="input pass"/>
+                           required="required" pattern="${requestScope['login_ptrn']}"
+                           minlength="${requestScope['login_min']}" maxlength="${requestScope['login_max']}"
+                           title="<fmt:message key="registration.title.login" bundle="${link}"/>"
+                           value="${requestScope['login']}" class="input pass"/>
                     <input name="password" type="password" placeholder="<fmt:message key="enter.password" bundle="${link}"/>"
-                           required="required" class="input pass"/>
+                           required="required" class="input pass"
+                           minlength="${requestScope['password_min']}" maxlength="${requestScope['password_max']}"/>
                     <input type="submit" value="Sign me up!" class="inputButton"/>
                     <div class="text-center">
                         <fmt:message key="have.account" bundle="${link}"/>

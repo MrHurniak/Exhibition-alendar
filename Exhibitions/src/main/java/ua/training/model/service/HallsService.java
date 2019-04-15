@@ -18,9 +18,8 @@ public class HallsService {
     private List<ExhibitionHall> halls;
     private Map<Integer, Integer> rowsByHall = new HashMap<>();
 
-
     private HallsService() {
-        halls = hallDao.getAll();
+        halls = hallDao.getAllOK();
         rowsByHall.put(-1, expoDao.getNumberRows());
     }
 
@@ -52,7 +51,8 @@ public class HallsService {
             if (id < 0) return;
             ExhibitionHall hall = new ExhibitionHall();
             hall.setId(id);
-            hallDao.delete(hall);
+            hallDao.saveDelete(hall);
+            ExpositionService.getInstance().deleteByHallId(id);
             updateList(hall);
             rowsByHall.remove(hall.getId());
         }
@@ -60,7 +60,11 @@ public class HallsService {
 
     public void update(String idStr, String name, String info) {
         if (name != null && info != null && Utils.isNumber(idStr)) {
-            ExhibitionHall hall = new ExhibitionHall(Integer.parseInt(idStr), name, info);
+            ExhibitionHall hall = new ExhibitionHall.Builder()
+                    .setId(Integer.parseInt(idStr))
+                    .setName(name)
+                    .setInformation(info)
+                    .build();
             hallDao.update(hall);
             updateList(hall);
         }
@@ -84,7 +88,7 @@ public class HallsService {
     }
 
     private void updateList(ExhibitionHall hall) {
-        halls = hallDao.getAll();
+        halls = hallDao.getAllOK();
         rowsByHall.put(hall.getId(), expoDao.getNumberRows(hall.getId()));
         rowsByHall.put(-1, expoDao.getNumberRows());
     }

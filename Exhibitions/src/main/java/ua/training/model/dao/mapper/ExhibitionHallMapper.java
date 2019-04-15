@@ -1,6 +1,7 @@
 package ua.training.model.dao.mapper;
 
 import ua.training.model.entity.ExhibitionHall;
+import ua.training.model.entity.enums.HallStatus;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,6 +30,7 @@ public class ExhibitionHallMapper implements ObjectMapper<ExhibitionHall> {
                 .setId(resultSet.getInt("exhibitionHalls.id"))
                 .setName(resultSet.getString("exhibitionHalls.name"))
                 .setInformation(resultSet.getString("exhibitionHalls.information"))
+                .setHallStatus(HallStatus.valueOf(resultSet.getString("exhibitionHalls.state")))
                 .build();
     }
 

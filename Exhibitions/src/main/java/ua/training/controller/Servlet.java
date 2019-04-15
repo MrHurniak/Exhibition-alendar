@@ -1,5 +1,6 @@
 package ua.training.controller;
 
+import org.apache.log4j.Logger;
 import ua.training.controller.command.*;
 import ua.training.controller.command.Exception;
 
@@ -14,11 +15,12 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
+    final static Logger LOGGER = Logger.getLogger(Servlet.class);
     private Map<String, Command> commands;
 
     public void init(ServletConfig config){
+        LOGGER.info("In servlet init method.");
         config.getServletContext().setAttribute("loggedUsers", new HashSet<String>());
-        System.out.println("in servlet init method.");
         commands = new HashMap<>();
         commands.put("logout", new LogOut());
         commands.put("login", new LogIn());

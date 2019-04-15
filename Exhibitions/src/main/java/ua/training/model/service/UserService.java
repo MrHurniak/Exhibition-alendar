@@ -9,6 +9,7 @@ import ua.training.model.entity.User;
 import ua.training.model.entity.enums.Role;
 import ua.training.model.exceptions.NotUniqLoginException;
 import ua.training.model.service.util.HashingPasswordUtil;
+import ua.training.model.service.util.RegexContainer;
 import ua.training.model.service.util.Utils;
 
 import java.util.List;
@@ -49,14 +50,17 @@ public class UserService {
         }
 
         User.Builder builder = new User.Builder();
-        builder.setName(name)
+        user = builder.setName(name)
                 .setSurname(surname)
                 .setEmail(email)
                 .setRole(Role.USER)
                 .setLogin(login)
-                .setPassword(hashingUtil.encryptionSHA256(password));
-
-        userDao.insert(builder.build());
+                .setPassword(hashingUtil.encryptionSHA256(password))
+                .build();
+        if(validateData(user)) {
+            userDao.insert(user);
+        }
+        throw new IllegalArgumentException("Please, check all date and correct it.");
     }
 
     public List<Ticket> getUserTickets(User user){
@@ -78,8 +82,19 @@ public class UserService {
         return Optional.ofNullable(userDao.getByLogin(login));
     }
 
-    public boolean validateData(User user) {
-        //todo validate
-        return true;
+    public boolean checkPassword(User user, String password) {
+        return hashingUtil.isEqualsSHA256(password, user.getPassword());
     }
+
+    private boolean validateData(User user) {
+        if(!Utils.regexCheck(user.getName(), RegexContainer.NAME_RG)){
+            return false;
+        }
+        if(!Utils.regexCheck(user.getSurname(), RegexContainer.SURNAME_RG)){
+            return false;
+        }
+        return user.getLogin().length() >= 5 && user.getPassword().length() >= 7;
+    }
+
+
 }

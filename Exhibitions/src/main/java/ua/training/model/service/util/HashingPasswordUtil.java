@@ -13,6 +13,13 @@ public class HashingPasswordUtil {
         return encrypt(purpose, "SHA-256");
     }
 
+    public boolean isEqualsSHA256(String simple, String hashed){
+        if(Utils.isNotNull(simple, hashed)) {
+            return encryptionSHA256(simple).equals(hashed);
+        }
+        return false;
+    }
+
     private String encrypt(String purpose, String hash){
         try {
             MessageDigest md = MessageDigest.getInstance(hash);

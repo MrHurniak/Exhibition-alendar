@@ -15,6 +15,7 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png"
           sizes="96x96">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/exposition.css">
     <fmt:setBundle var="link" basename="messages" scope="session"/>
     <jsp:include page="../../bootstrap.jsp"/>
 </head>
@@ -25,7 +26,7 @@
     <div class="container">
         <div class="row  justify-content-center">
             <div class="col-xs-12 col-sm-2 p-2">
-                <div style="margin-top: 25px;">
+                <div class="hall">
                     <c:forEach var="hall" items="${requestScope['halls']}">
                         <a href="${pageContext.request.contextPath}/app/r/exposition?hall=${hall.id}">
                             <c:out value="${hall.name}"/>
@@ -34,33 +35,36 @@
                     <%--todo how to hide and show then--%>
                     <c:if test="${true}">
                         <a href="${pageContext.request.contextPath}/app/r/exposition">
-                            Show all
+                            <fmt:message key="exposition.show.all" bundle="${link}"/>
                         </a>
                     </c:if>
                 </div>
             </div>
-            <div class="col-xs-12 col-sm-8" style="border-left: 1px solid grey; border-right: 1px solid grey;">
+            <div class="col-xs-12 col-sm-8 exposition-list">
 
                 <c:forEach items="${requestScope['expositionsList']}" var="elem">
                     <div class="card my-1">
                         <div class="card-body">
-                            <h5 class="card-title" style="text-align: left;"><a href="#"><c:out
-                                    value="${elem.theme}"/></a></h5>
+                            <div class="cart-head">
+                                <h4 class="card-title" style="text-align: left;"><c:out
+                                        value="${elem.theme}"/></h4>
+                                <c:set var="datefmt"><fmt:message key="date.format" bundle="${link}"/></c:set>
+                                <p class="card-text">
+                                    <fmt:formatDate value="${elem.date}" pattern="${datefmt}"/> - <fmt:formatDate value="${elem.date_to}" pattern="${datefmt}"/>
+                                </p>
+                            </div>
                             <p class="card-text"><c:out value="${elem.shortDescription}"/></p>
-                            <c:set var="datefmt"><fmt:message key="date.format" bundle="${link}"/></c:set>
-                                <%--<c:out value="${datefmt}"/>--%>
-                                <%--<fmt:parseDate pattern="yyyy-MM-dd" value="${elem.date}" var="parsedDate" />--%>
-                                <%--<fmt:formatDate value="${parsedDate}" pattern="dd/MM/yyyy"/>--%>
-                            <p class="card-text"><fmt:formatDate value="${elem.date}" pattern="${datefmt}"/></p>
-                            <p class="card-text"><c:out value="${elem.price}"/>$</p>
-                            <c:if test="${sessionScope['role'] eq 'USER'}">
-                                <form method="post" action="${pageContext.request.contextPath}/app/r/user/buy">
-                                    <input type="text" hidden name="expo_id" value="${elem.id}"/>
-                                    <input type="submit" class="btn btn-secondary"
-                                           value="<fmt:message key="button.buy" bundle="${link}"/>">
-                                </form>
-                            </c:if>
-                            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                            <div class="cart-buy">
+                                <p class="card-text"><fmt:message key="exposition.price" bundle="${link}"/>: <c:out value="${elem.price}"/><fmt:message key="price.currency" bundle="${link}"/></p>
+                                <c:if test="${sessionScope['role'] eq 'USER'}">
+                                    <form method="post" action="${pageContext.request.contextPath}/app/r/user/buy">
+                                        <input type="text" hidden name="expo_id" value="${elem.id}"/>
+                                        <input type="submit" class="btn btn-secondary"
+                                               value="<fmt:message key="button.buy" bundle="${link}"/>">
+                                    </form>
+                                </c:if>
+                            </div>
+                            <button class="btn details" type="button" data-toggle="collapse"
                                     data-target="#collapseExample${elem.id}" aria-expanded="false"
                                     aria-controls="collapseExample">
                                 <fmt:message key="exposition.show.more" bundle="${link}"/>
@@ -68,6 +72,8 @@
                             <div class="collapse" id="collapseExample${elem.id}">
                                 <div class="card card-body">
                                     <c:out value="${elem.fullDescription}"/>
+                                    <b><fmt:message key="exposition.place" bundle="${link}"/>:</b>
+                                    <c:out value="${elem.hall.name}"/>
                                 </div>
                             </div>
                         </div>

@@ -15,12 +15,13 @@
     <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png" sizes="96x96">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/abminStyle.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <jsp:include page="../../bootstrap.jsp"/>
     <fmt:setBundle var="link" basename="messages" scope="session"/>
 </head>
 <body>
 <div class="container-fluid px-0">
     <div class="row collapse show no-gutters d-flex h-100 position-relative">
-        <div class="col-3 p-0 h-100 w-sidebar navbar-collapse collapse d-none d-md-flex sidebar">
+        <div class="col-2 p-0 h-100 w-sidebar navbar-collapse collapse d-none d-md-flex sidebar">
             <!-- fixed sidebar -->
             <div class="navbar-dark bg-dark text-white position-fixed h-100 align-self-start w-sidebar myclass">
                 <div>
@@ -61,9 +62,9 @@
                 </div>
             </div>
         </div>
-        <div class="col p-3">
+        <div class="col-10 p-0">
             <jsp:include page="${adminPage}"/>
-            </div>
+        </div>
     </div>
 </div>
 

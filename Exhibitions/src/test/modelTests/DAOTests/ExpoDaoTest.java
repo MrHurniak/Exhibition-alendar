@@ -7,6 +7,7 @@ import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.impl.JDBCExpositionDao;
 import ua.training.model.entity.ExhibitionHall;
 import ua.training.model.entity.Exposition;
+import ua.training.model.entity.enums.HallStatus;
 
 import java.sql.Date;
 import java.util.List;
@@ -43,12 +44,12 @@ public class ExpoDaoTest {
 
     @Test
     public void insertTest(){
-        String testV = "insertTest";
-        Exposition expo = new Exposition(0, 100,
-                testV, testV, testV,new Date(new java.util.Date().getTime()), new ExhibitionHall(1,testV,testV));
-        expoDao.insert(expo);
-        List<Exposition> list = expoDao.getAll();
-        list.forEach(System.out::println);
+//        String testV = "insertTest";
+//        Exposition expo = new Exposition(0, 100,
+//                testV, testV, testV,new Date(new java.util.Date().getTime()), new ExhibitionHall(1,testV,testV, HallStatus.OK));
+//        expoDao.insert(expo);
+//        List<Exposition> list = expoDao.getAll();
+//        list.forEach(System.out::println);
     }
 
     @Test

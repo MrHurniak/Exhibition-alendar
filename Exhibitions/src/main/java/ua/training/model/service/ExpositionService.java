@@ -13,7 +13,7 @@ public class ExpositionService {
 
     private static volatile ExpositionService instance;
 
-    private int postOnPage = 5;
+    private int postOnPage = 3;
     private JDBCExpositionDao expoDao = DaoFactory.getInstance().createExpositionDao();
     private HallsService hallsService = HallsService.getInstance();
 
@@ -64,7 +64,8 @@ public class ExpositionService {
         return noOfPages;
     }
 
-    public void add(String theme, String shortDesc, String fullDesc, String priceStr, String date, String hallIdSrt) {
+    public void add(String theme, String shortDesc, String fullDesc, String priceStr, String date, String date_to,
+                    String hallIdSrt) {
         if (!Utils.isNotNull(theme, shortDesc)) {
             return;
         }
@@ -83,6 +84,7 @@ public class ExpositionService {
                 .setFullDescription(fullDesc)
                 .setPrice(price)
                 .setDate(Date.valueOf(date))
+                .setDateTo(Date.valueOf(date_to))
                 .setHall(new ExhibitionHall.Builder().setId(hallId).build());
         expoDao.insert(builder.build());
     }
@@ -91,11 +93,15 @@ public class ExpositionService {
         if (!Utils.isNumber(expoIdStr)) return;
         int expoId = Integer.parseInt(expoIdStr);
         if (expoId < 0) return;
-        expoDao.delete(new Exposition.Builder().setId(expoId).build());
+        expoDao.saveDelete(new Exposition.Builder().setId(expoId).build());
+    }
+
+    public void deleteByHallId(int hallId){
+        expoDao.saveDeleteByHallId(hallId);
     }
 
     public void update(String expoIdStr, String theme, String shortDesc,
-                       String fullDesc, String priceStr, String date, String hallIdSrt) {
+                       String fullDesc, String priceStr, String date, String date_to, String hallIdSrt) {
         if (!Utils.isNotNull(theme, shortDesc, date)) {
             return;
         }
@@ -111,6 +117,7 @@ public class ExpositionService {
         Exposition.Builder builder = new Exposition.Builder();
         builder.setId(expoId)
                 .setDate(Date.valueOf(date))
+                .setDateTo(Date.valueOf(date_to))
                 .setTheme(theme)
                 .setShortDescription(shortDesc)
                 .setFullDescription(fullDesc)
