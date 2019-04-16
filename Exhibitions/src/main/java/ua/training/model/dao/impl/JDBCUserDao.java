@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import ua.training.model.dao.GenericDAO;
 import ua.training.model.dao.mapper.UserMapper;
 import ua.training.model.entity.User;
+import ua.training.model.exceptions.NotUniqEMailException;
+import ua.training.model.exceptions.NotUniqLoginException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -24,21 +26,6 @@ public class JDBCUserDao implements GenericDAO<User> {
         this.userMapper = UserMapper.getInstance();
         this.dataSource = dataSource;
         LOGGER.debug("Creating instance of " + this.getClass().getName());
-    }
-
-    @Override
-    public void insert(User user) {
-        String query = "insert into ExpositionProject.users (name, surname, email, login, password, role) " +
-                "values (?, ?, ?, ?, ?, ?);";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            commonExtract(user, statement);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            LOGGER.error("SQLException while insert user with login=" + user.getLogin(), e);
-            throw new RuntimeException(e);
-        }
-        LOGGER.info("Inserted new user with login=" + user.getLogin());
     }
 
     @Override
@@ -76,6 +63,59 @@ public class JDBCUserDao implements GenericDAO<User> {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public void insert(User user) {
+        String query1 = "SELECT * FROM ExpositionProject.users where users.login = ?;";
+        String query2 = "SELECT * FROM ExpositionProject.users where users.email = ?;";
+        String query3 = "insert into ExpositionProject.users (name, surname, email, login, password, role) " +
+                "values (?, ?, ?, ?, ?, ?);";
+        ResultSet resultSet;
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(false);
+            try (PreparedStatement statement = connection.prepareStatement(query1)) {
+                statement.setString(1, user.getLogin());
+                resultSet = statement.executeQuery();
+                LOGGER.info("Search users with login=" + user.getLogin());
+                if (resultSet.next()) {
+                    LOGGER.info("Matching logins found. Login=" + user.getLogin());
+                    throw new NotUniqLoginException(user.getLogin(), user.getName(), user.getSurname(), user.getEmail());
+                }
+            } catch (SQLException | NotUniqLoginException e){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                throw e;
+            }
+            try(PreparedStatement statement = connection.prepareStatement(query2)){
+                statement.setString(1, user.getEmail());
+                resultSet = statement.executeQuery();
+                LOGGER.info("Searching users with email=" + user.getEmail());
+                if (resultSet.next()) {
+                    LOGGER.info("Matching emails found. Email=" + user.getEmail());
+                    throw new NotUniqEMailException(user.getLogin(), user.getName(), user.getSurname(), user.getEmail());
+                }
+            } catch (SQLException | NotUniqEMailException e){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                throw e;
+            }
+            try(PreparedStatement statement = connection.prepareStatement(query3)){
+                commonExtract(user, statement);
+                statement.execute();
+                LOGGER.info("Added new user");
+            } catch (SQLException e){
+                connection.rollback();
+                connection.setAutoCommit(true);
+                LOGGER.error("Can`t add new user with login=" + user.getLogin(), e);
+                throw e;
+            }
+            connection.commit();
+            connection.setAutoCommit(true);
+            LOGGER.info("Successfully added new user to user table. User login=" + user.getLogin());
+        } catch (SQLException e) {
+            LOGGER.error("Can`t add user with login=" + user.getLogin() + " to user table", e);
+        }
     }
 
     @Override

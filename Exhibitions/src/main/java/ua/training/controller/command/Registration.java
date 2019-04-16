@@ -1,5 +1,6 @@
 package ua.training.controller.command;
 
+import ua.training.model.exceptions.NotUniqEMailException;
 import ua.training.model.exceptions.NotUniqLoginException;
 import ua.training.model.service.UserService;
 import javax.servlet.http.HttpServletRequest;
@@ -40,13 +41,19 @@ public class Registration implements Command {
             request.setAttribute("surname", surname);
             request.setAttribute("email", email);
             return "/registration.jsp";
-        } catch (IllegalArgumentException e){
+        } catch (NotUniqEMailException e){
             request.setAttribute("message", e.getMessage());
+            request.setAttribute("name", name);
+            request.setAttribute("surname", surname);
+            request.setAttribute("login", login);
+            return "/registration.jsp";
+        }catch (IllegalArgumentException e){
             request.setAttribute("message", e.getMessage());
             request.setAttribute("name", name);
             request.setAttribute("surname", surname);
             request.setAttribute("email", email);
             request.setAttribute("login", login);
+            return "/registration.jsp";
         }
         return "redirect:/app/r/exposition";
     }

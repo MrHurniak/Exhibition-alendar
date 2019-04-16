@@ -25,7 +25,7 @@ public class LogIn implements Command {
         Optional<User> user = userService.getByLogin(login);
         //todo don`t forgot to uncomment and rewrite passwords fo users
         if (user.isPresent() /*&& userService.checkPassword(user.get(), password)*/) {
-            if (CommandUtil.isUserAbsentInLogged(request, user.get().getLogin(), user.get().getRole())) {
+            if (CommandUtil.isAbsentInLogged(request, user.get().getLogin(), user.get().getRole())) {
                 return "/WEB-INF/error.jsp";
             }
             request.getSession().setAttribute("message", null);
