@@ -1,5 +1,6 @@
 package ua.training.controller.command;
 
+import org.apache.log4j.Logger;
 import ua.training.model.entity.User;
 import ua.training.model.service.UserService;
 
@@ -8,6 +9,8 @@ import java.util.Optional;
 
 
 public class LogIn implements Command {
+
+    private static final Logger LOGGER = Logger.getLogger(LogIn.class);
     private UserService userService;
 
     public LogIn() {
@@ -25,15 +28,18 @@ public class LogIn implements Command {
         Optional<User> user = userService.getByLogin(login);
         //todo don`t forgot to uncomment and rewrite passwords fo users
         if (user.isPresent() /*&& userService.checkPassword(user.get(), password)*/) {
-            if (CommandUtil.isAbsentInLogged(request, user.get().getLogin(), user.get().getRole())) {
+            if (CommandUtil.isUserLogged(request)) {
+                LOGGER.warn("Logged user try to login. User login="
+                        + request.getSession().getAttribute("login"));
                 return "/WEB-INF/error.jsp";
             }
-            request.getSession().setAttribute("message", null);
-            return "redirect:/app/r";
+            CommandUtil.logInUser(request, user.get().getLogin(), user.get().getRole());
+            LOGGER.info("User log in system. User login=" + user.get().getLogin());
+            return "redirect:/app/r/exposition";
         }
-        //todo change to boolean for i18n
-        request.getSession().setAttribute("message","невірний логін чи пароль");
-        return "redirect:/app/login";
+        LOGGER.info("User entered wrong login or password");
+        request.setAttribute("message", "wrong.login.password");
+        return "/login.jsp";
     }
 
 }
