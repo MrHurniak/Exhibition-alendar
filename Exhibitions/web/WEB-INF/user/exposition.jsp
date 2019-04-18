@@ -29,13 +29,13 @@
                 <div class="hall">
                     <c:forEach var="hall" items="${requestScope['halls']}">
                         <a href="${pageContext.request.contextPath}/app/r/exposition?hall=${hall.id}">
-                            <c:out value="${hall.name}"/>
+                            <i class="fas fa-circle mr-1 circle"></i><c:out value="${hall.name}"/>
                         </a>
                     </c:forEach>
                     <%--todo how to hide and show then--%>
                     <c:if test="${true}">
                         <a href="${pageContext.request.contextPath}/app/r/exposition">
-                            <fmt:message key="exposition.show.all" bundle="${link}"/>
+                            </i><fmt:message key="exposition.show.all" bundle="${link}"/>
                         </a>
                     </c:if>
                 </div>
@@ -50,12 +50,14 @@
                                         value="${elem.theme}"/></h4>
                                 <c:set var="datefmt"><fmt:message key="date.format" bundle="${link}"/></c:set>
                                 <p class="card-text">
-                                    <fmt:formatDate value="${elem.date}" pattern="${datefmt}"/> - <fmt:formatDate value="${elem.date_to}" pattern="${datefmt}"/>
+                                    <fmt:formatDate value="${elem.date}" pattern="${datefmt}"/> - <fmt:formatDate
+                                        value="${elem.date_to}" pattern="${datefmt}"/>
                                 </p>
                             </div>
                             <p class="card-text"><c:out value="${elem.shortDescription}"/></p>
                             <div class="cart-buy">
-                                <p class="card-text"><fmt:message key="exposition.price" bundle="${link}"/>: <c:out value="${elem.price}"/><fmt:message key="price.currency" bundle="${link}"/></p>
+                                <p class="card-text"><fmt:message key="exposition.price" bundle="${link}"/>: <c:out
+                                        value="${elem.price}"/><fmt:message key="price.currency" bundle="${link}"/></p>
                                 <c:if test="${sessionScope['role'] eq 'USER'}">
                                     <form method="post" action="${pageContext.request.contextPath}/app/r/user/buy">
                                         <input type="text" hidden name="expo_id" value="${elem.id}"/>
@@ -74,6 +76,7 @@
                                     <c:out value="${elem.fullDescription}"/>
                                     <b><fmt:message key="exposition.place" bundle="${link}"/>:</b>
                                     <c:out value="${elem.hall.name}"/>
+                                    <c:out value="${elem.hall.information}"/>
                                 </div>
                             </div>
                         </div>

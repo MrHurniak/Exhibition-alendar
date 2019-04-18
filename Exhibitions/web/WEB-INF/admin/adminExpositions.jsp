@@ -2,6 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <h3>Expositions editor</h3>
 <p>Create new exposition</p>
+<c:if test="${not empty sessionScope['expo_message']}">
+    <h3><c:out value="${sessionScope['expo_message']}"/></h3>
+    <c:remove var="expo_message" scope="session"/>
+</c:if>
 <form action="${pageContext.request.contextPath}/app/r/admin/expositions">
     <input type="text" hidden name="command" value="add"/>
     <div class="form-group" style="display: flex; align-items: center;">

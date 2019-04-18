@@ -44,3 +44,14 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+.hall > a {
+    position: relative;
+}
+
+.circle {
+    position: absolute;
+    top: 5px;
+    font-size: 10px;
+    left: -15px;
+}

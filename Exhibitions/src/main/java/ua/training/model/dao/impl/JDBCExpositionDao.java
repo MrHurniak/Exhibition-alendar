@@ -39,14 +39,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
                 "price, date, date_to, hall_id, state) values (?, ?, ?, ?, ?, ?, ?, ?);";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setString(1, expo.getTheme());
-            statement.setString(2, expo.getShortDescription());
-            statement.setString(3, expo.getFullDescription());
-            statement.setInt(4, expo.getPrice());
-            statement.setDate(5, expo.getDate());
-            statement.setDate(6, expo.getDate_to());
-            statement.setInt(7, expo.getHall().getId());
-            statement.setString(8, expo.getExpositionStatus().name());
+            fillStatementCommon(expo, statement);
             statement.executeUpdate();
         } catch (SQLException e){
             LOGGER.error("SQLException while insert Exposition instance with theme=" + expo.getTheme(), e);
@@ -55,12 +48,23 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
         LOGGER.info("Inserted new exposition with theme=" + expo.getTheme());
     }
 
+    private void fillStatementCommon(Exposition expo, PreparedStatement statement) throws SQLException {
+        statement.setString(1, expo.getTheme());
+        statement.setString(2, expo.getShortDescription());
+        statement.setString(3, expo.getFullDescription());
+        statement.setInt(4, expo.getPrice());
+        statement.setDate(5, expo.getDate());
+        statement.setDate(6, expo.getDate_to());
+        statement.setInt(7, expo.getHall().getId());
+        statement.setString(8, expo.getExpositionStatus().name());
+    }
+
 
     @Override
     public Exposition getById(int id) {
         String query = "SELECT * FROM ExpositionProject.expositions " +
                 "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where expositions.id = ?;";
+                "where expositions.id = ? order by expositions.date;";
         ResultSet resultSet;
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
@@ -85,14 +89,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
                 "fullDescription = ?, price = ?,date = ?,date_to = ?, hall_id = ?, state=? where id = ?;";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setString(1, expo.getTheme());
-            statement.setString(2, expo.getShortDescription());
-            statement.setString(3, expo.getFullDescription());
-            statement.setInt(4, expo.getPrice());
-            statement.setInt(5, expo.getHall().getId());
-            statement.setDate(6, expo.getDate());
-            statement.setDate(7, expo.getDate_to());
-            statement.setString(8, expo.getExpositionStatus().name());
+            fillStatementCommon(expo, statement);
             statement.setInt(9, expo.getId());
             statement.executeUpdate();
         } catch (SQLException e){
@@ -129,7 +126,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     @Override
     public List<Exposition> getAll() {
            String query = "SELECT * FROM ExpositionProject.expositions " +
-                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id;";
+                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id order by expositions.date;";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
             LOGGER.info("Trying to get all expositions");
@@ -143,7 +140,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     public List<Exposition> getAllNotDeleted(){
         String query = "SELECT * FROM ExpositionProject.expositions " +
                 "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where expositions.state != 'DELETED';";
+                "where expositions.state != 'DELETED' order by expositions.date;";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
             LOGGER.info("Trying to get all expositions where state are not 'deleted'");
@@ -157,7 +154,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     public List<Exposition> getAllByStatus(ExpositionStatus status){
         String query = "SELECT * FROM ExpositionProject.expositions " +
                 "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where expositions.state=?;";
+                "where expositions.state=? order by expositions.date;";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, status.name());
@@ -173,7 +170,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
     public List<Exposition> getInRange(int offset, int length){
         String query = "SELECT * FROM ExpositionProject.expositions " +
                 "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where expositions.state != 'DELETED' limit ?,?";
+                "where expositions.state != 'DELETED' order by expositions.date limit ?,?";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, offset);
@@ -192,7 +189,7 @@ public class JDBCExpositionDao implements GenericDAO<Exposition> {
         String query = "SELECT  * FROM ExpositionProject.expositions " +
                 "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
                 "where expositions.hall_id = ? AND expositions.state != 'DELETED' " +
-                "limit ?,?;";
+                "order by expositions.date limit ?,?;";
         try(Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement(query)){
             statement.setInt(1, hallId);

@@ -48,8 +48,13 @@ public class AdminExpo implements Command {
         String date = request.getParameter("date");
         String date_to = request.getParameter("date_to");
         String hallId = request.getParameter("hall_id");
-        expoService.add(theme, shortDescription, fullDescription,
-                price, date, date_to, hallId);
+        try {
+            expoService.add(theme, shortDescription, fullDescription,
+                    price, date, date_to, hallId);
+            request.getSession().setAttribute("expo_message", "Exposition added");
+        } catch (IllegalArgumentException e){
+            request.getSession().setAttribute("expo_message", e.getMessage());
+        }
     }
 
     private void delete(HttpServletRequest request) {
@@ -66,8 +71,13 @@ public class AdminExpo implements Command {
         String date = request.getParameter("date");
         String date_to = request.getParameter("date_to");
         String hallId = request.getParameter("hall_id");
-        expoService.update(expoId, theme, shortDescription, fullDescription,
-                price, date, date_to, hallId);
+        try {
+            expoService.update(expoId, theme, shortDescription, fullDescription,
+                    price, date, date_to, hallId);
+            request.getSession().setAttribute("expo_message", "Exposition changed");
+        } catch (IllegalArgumentException e){
+            request.getSession().setAttribute("expo_message", e.getMessage());
+        }
     }
 }
 
