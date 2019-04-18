@@ -1,7 +1,6 @@
 #checkbox_places {
 	padding: 5px;
 	border: 2px black solid;
-	/*border-radius: 15px;*/
 	background: black;
 }
 
@@ -13,7 +12,6 @@
 #ua + label,
 #en + label {
 	display: block;
-/*	width: 35px;*/
 	height: 20px;
 	background-color: transparent;
 	cursor:pointer;  
@@ -47,56 +45,4 @@
 .social--link i {
 	font-size: 35px;
 	color: #fff;
-}
-
-.list-group-item {
-  user-select: none;
-}
-
-.list-group input[type="checkbox"] {
-  display: none;
-}
-
-.list-group input[type="checkbox"] + .list-group-item {
-  cursor: pointer;
-}
-
-.list-group input[type="checkbox"] + .list-group-item:before {
-  content: "\2713";
-  color: transparent;
-  font-weight: bold;
-  margin-right: 1em;
-}
-
-.list-group input[type="checkbox"]:checked + .list-group-item {
-  background-color: #0275D8;
-  color: #FFF;
-}
-
-.list-group input[type="checkbox"]:checked + .list-group-item:before {
-  color: inherit;
-}
-
-.list-group input[type="radio"] {
-  display: none;
-}
-
-.list-group input[type="radio"] + .list-group-item {
-  cursor: pointer;
-}
-
-.list-group input[type="radio"] + .list-group-item:before {
-  content: "\2022";
-  color: transparent;
-  font-weight: bold;
-  margin-right: 1em;
-}
-
-.list-group input[type="radio"]:checked + .list-group-item {
-  background-color: #0275D8;
-  color: #FFF;
-}
-
-.list-group input[type="radio"]:checked + .list-group-item:before {
-  color: inherit;
 }

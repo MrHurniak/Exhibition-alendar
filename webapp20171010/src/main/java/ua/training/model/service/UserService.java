@@ -7,6 +7,7 @@ import ua.training.model.entity.Ticket;
 import ua.training.model.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UserService {
@@ -17,12 +18,26 @@ public class UserService {
         userDao = DaoFactory.getInstance().createUserDao();
         ticketDao = DaoFactory.getInstance().createTicketDao();
     }
-    public void createUser(){}
+    public void createUser(User user){
+        userDao.insert(user);
+    }
 
     //todo only Exposition return
     public List<Ticket> getUserTickets(User user){
         return ticketDao.getAll().stream()
                 .filter(e -> e.getUser().equals(user))
                 .collect(Collectors.toList());
+    }
+
+    public Optional<User> getByLogin(String login){
+        if(login == null){
+            return Optional.empty();
+        }
+        return Optional.of(userDao.getByLogin(login));
+    }
+
+    public boolean validateData(User user) {
+        //todo validate
+        return false;
     }
 }

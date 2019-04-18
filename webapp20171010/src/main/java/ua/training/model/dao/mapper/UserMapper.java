@@ -1,6 +1,7 @@
 package ua.training.model.dao.mapper;
 
 import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Role;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +18,8 @@ public class UserMapper implements ObjectMapper<User> {
         user.setEmail(resultSet.getString("users.email"));
         user.setLogin(resultSet.getString("users.login"));
         user.setPassword(resultSet.getString("users.password"));
-        user.setRole(resultSet.getInt("users.role"));
+        user.setRole(Role.valueOf(resultSet.getString("users.role")));
+//        user.setRole(resultSet.getInt("users.role"));
         return user;
     }
 

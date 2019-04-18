@@ -5,6 +5,7 @@ import ua.training.model.dao.mapper.ExhibitionHallMapper;
 import ua.training.model.dao.mapper.ExpositionMapper;
 import ua.training.model.dao.mapper.UserMapper;
 
+import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class JDBCDaoFactory extends DaoFactory {
+
+    private DataSource dataSource = ConnectionPoolHolder.getDataSource();
 
     private UserMapper userMapper;
     private ExpositionMapper expositionMapper;
@@ -28,19 +31,25 @@ public class JDBCDaoFactory extends DaoFactory {
 
     }
 
-
     private Connection getConnection(){
-        //todo maybe singletone must be
-        try {
-            //todo data from properties file
-            return DriverManager.getConnection(getDBinfo("url")
-                    , getDBinfo("user")
-                    , getDBinfo("password"));
+        try{
+            return dataSource.getConnection();
         } catch (SQLException e) {
-            //todo catch or make beaut
             throw new RuntimeException(e);
         }
     }
+//    private Connection getConnection(){
+//        //todo maybe singletone must be
+//        try {
+//            //todo data from properties file
+//            return DriverManager.getConnection(/*getDBinfo("url")*/ "jdbc:mysql://localhost:3306/ExpositionProject"
+//                    , /*getDBinfo("user")*/ "root"
+//                    , /*getDBinfo("password")*/"password");
+//        } catch (SQLException e) {
+//            //todo catch or make beaut
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Override
     public JDBCUserDao createUserDao() {

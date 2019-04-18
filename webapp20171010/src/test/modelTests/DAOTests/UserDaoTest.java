@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.impl.JDBCUserDao;
 import ua.training.model.entity.User;
+import ua.training.model.entity.enums.Role;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class UserDaoTest {
         user.setLogin(smth);
         user.setPassword(smth);
         user.setEmail(smth);
-        user.setRole(2);
+        user.setRole(Role.USER);
         userDao.insert(user);
 
         userDao.getAll().forEach(System.out::println);
@@ -62,7 +63,7 @@ public class UserDaoTest {
         user.setLogin(smth);
         user.setPassword(smth);
         user.setEmail(smth);
-        user.setRole(2);
+        user.setRole(Role.USER);
         userDao.update(user);
 
         userDao.getAll().forEach(System.out::println);

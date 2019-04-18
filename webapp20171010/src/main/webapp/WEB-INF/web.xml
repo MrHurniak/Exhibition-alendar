@@ -11,6 +11,12 @@
     <url-pattern>/app/*</url-pattern>
   </servlet-mapping>
 
+  <listener>
+    <listener-class>
+      ua.training.controller.listeners.SessionListener
+    </listener-class>
+  </listener>
+
   <welcome-file-list>
   <welcome-file>index.jsp</welcome-file>
 </welcome-file-list>

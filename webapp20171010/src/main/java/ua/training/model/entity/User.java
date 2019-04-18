@@ -1,5 +1,7 @@
 package ua.training.model.entity;
 
+import ua.training.model.entity.enums.Role;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,7 +10,7 @@ public class User implements Serializable {
     private String name;
     private String surname;
     //todo make role within enum
-    private int role;
+    private Role role;
     private String email;
     private String login;
     private String password;
@@ -16,7 +18,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(int id, String name, String surname, int role, String email, String login, String password) {
+    public User(int id, String name, String surname, Role role, String email, String login, String password) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -50,11 +52,11 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public int getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -81,11 +83,6 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-//    private enum ROLE{
-//        ADMIN,
-//        USER
-//    }
-
 
     @Override
     public boolean equals(Object o) {

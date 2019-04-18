@@ -31,7 +31,7 @@ public class JDBCUserDao implements GenericDAO<User> {
             statement.setString(3, user.getEmail());
             statement.setString(4, user.getLogin());
             statement.setString(5, user.getPassword());
-            statement.setInt(6, user.getRole());
+            statement.setString(6, user.getRole().name());
             statement.executeUpdate();
         } catch (SQLException e){
             //todo log
@@ -57,6 +57,22 @@ public class JDBCUserDao implements GenericDAO<User> {
         return null;
     }
 
+    public User getByLogin(String login) {
+        String query = "SELECT * FROM ExpositionProject.users where users.login = ?;";
+        ResultSet resultSet;
+        try(PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, login);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return userMapper.extractFromResultSet(resultSet);
+            }
+        } catch (SQLException e){
+            //todo log
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
     @Override
     public void update(User user) {
         String query = "update ExpositionProject.users set name=?, surname=?, email=?, " +
@@ -67,7 +83,7 @@ public class JDBCUserDao implements GenericDAO<User> {
             statement.setString(3,user.getEmail());
             statement.setString(4, user.getLogin());
             statement.setString(5, user.getPassword());
-            statement.setInt(6, user.getRole());
+            statement.setString(6, user.getRole().name());
             statement.setInt(7, user.getId());
             statement.executeUpdate();
         } catch (SQLException e){
