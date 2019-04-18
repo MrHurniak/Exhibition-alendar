@@ -20,7 +20,7 @@
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner my-3" style="height: 300px; width: 100%">
                             <div class="carousel-item active">
-                                <img class="slide-img"  src="${pageContext.request.contextPath}/img/expo1.jpg" alt="First slide">
+                                <img class="slide-img" src="${pageContext.request.contextPath}/img/expo1.jpg" alt="First slide">
                                 <div class="carousel-caption d-none d-md-block  align-items-center">
                                     <h5>Перший слай</h5>
                                     <p>текст під слайдом</p>
