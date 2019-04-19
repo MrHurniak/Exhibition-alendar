@@ -9,24 +9,25 @@ import javax.servlet.http.HttpSession;
 public class PaymentConfirm implements Command {
     private UserService userService;
 
-    public PaymentConfirm(){
+    public PaymentConfirm() {
         this.userService = UserService.getInstance();
     }
+
     @Override
     public String execute(HttpServletRequest request) {
-        Object obj = request.getSession().getAttribute("expo");
-        if(obj instanceof Exposition){
+        Object obj = request.getSession().getAttribute("expo_buy");
+        if (obj instanceof Exposition) {
             Exposition expo = (Exposition) obj;
             userService.buyTickets(
-                    userService.getByLogin(((String)request.getSession().getAttribute("login"))).get(),
+                    userService.getByLogin(((String) request.getSession().getAttribute("login"))).get(),
                     expo,
                     (Integer) request.getSession().getAttribute("tickets_count")
             );
         }
         HttpSession session = request.getSession();
-        session.setAttribute("price",null);
-        session.setAttribute("expo",null);
-        session.setAttribute("tickets_count",null);
+        session.removeAttribute("price");
+        session.removeAttribute("expo_buy");
+        session.removeAttribute("tickets_count");
         return "redirect:/app/r/exposition";
     }
 }

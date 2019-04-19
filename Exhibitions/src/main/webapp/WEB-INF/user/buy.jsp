@@ -20,7 +20,7 @@
 </head>
 <body>
 <jsp:include page="../../header.jsp"/>
-<c:set var="expo" value="${sessionScope['expo']}"/>
+<c:set var="expo" value="${sessionScope['expo_buy']}"/>
 <div class="container-fluid">
     <div class="container">
         <div class="row  justify-content-center">

@@ -86,9 +86,13 @@ public class HallsService {
         return rowsByHall.get(-1);
     }
 
-    private void updateList(ExhibitionHall hall) {
+    void updateList(ExhibitionHall hall) {
+        this.updateList(hall.getId());
+    }
+
+    void updateList(int hallId){
         halls = hallDao.getAllOK();
-        rowsByHall.put(hall.getId(), expoDao.getNumberRows(hall.getId()));
+        rowsByHall.put(hallId, expoDao.getNumberRows(hallId));
         rowsByHall.put(-1, expoDao.getNumberRows());
     }
 }

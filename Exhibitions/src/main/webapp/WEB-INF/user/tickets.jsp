@@ -31,8 +31,12 @@
                             <h5 class="card-title" style="text-align: left;"><a href="#"><c:out
                                     value="${elem.exposition.theme}"/></a></h5>
                             <p class="card-text"><c:out value="${elem.exposition.shortDescription}"/></p>
-                            <p class="card-text"><fmt:message key="tickets.status" bundle="${link}"/>: <c:out
-                                    value="${elem.exposition.expositionStatus}"/></p>
+                            <c:set var="status" value="${elem.exposition.expositionStatus}"/>
+                            <c:if test="${status eq 'DELETED'}">
+                                <p class="card-text"><fmt:message key="tickets.status" bundle="${link}"/>:
+                                    <i style="color: red"><fmt:message key="ticket.status.deleted"
+                                                                       bundle="${link}"/></i></p>
+                            </c:if>
                             <p class="card-text"><fmt:message key="price.per.unit" bundle="${link}"/>: <c:out
                                     value="${elem.exposition.price}"/><fmt:message
                                     key="price.currency" bundle="${link}"/></p>

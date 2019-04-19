@@ -19,7 +19,7 @@ public class ExpositionService {
     private static final String SETTINGS_PROP = "/settings.properties";
     private static final Logger LOGGER = Logger.getLogger(ExpositionService.class);
 
-    private int postOnPage = 3;
+    private int postOnPage;
     private JDBCExpositionDao expoDao = DaoFactory.getInstance().createExpositionDao();
     private HallsService hallsService = HallsService.getInstance();
 
@@ -31,6 +31,7 @@ public class ExpositionService {
             LOGGER.debug("Load count of post on page from property file. Value=" + postOnPage);
         } catch (IOException e){
             LOGGER.warn("");
+            postOnPage = 3;
         }
     }
 
@@ -104,6 +105,7 @@ public class ExpositionService {
                 .setDateTo(date_end)
                 .setHall(new ExhibitionHall.Builder().setId(hallId).build());
         expoDao.insert(builder.build());
+        hallsService.updateList(hallId);
     }
 
     public void delete(String expoIdStr) {
@@ -111,6 +113,7 @@ public class ExpositionService {
         int expoId = Integer.parseInt(expoIdStr);
         if (expoId < 0) return;
         expoDao.saveDelete(new Exposition.Builder().setId(expoId).build());
+        hallsService.updateList(expoDao.getById(expoId).getHall().getId());
     }
     
     public void update(String expoIdStr, String theme, String shortDesc,
