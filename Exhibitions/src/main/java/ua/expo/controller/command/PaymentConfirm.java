@@ -1,7 +1,7 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
-import ua.training.model.entity.Exposition;
-import ua.training.model.service.UserService;
+import ua.expo.model.entity.Exposition;
+import ua.expo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

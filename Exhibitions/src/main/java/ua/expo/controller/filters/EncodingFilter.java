@@ -1,4 +1,4 @@
-package ua.training.controller.filters;
+package ua.expo.controller.filters;
 
 
 import org.apache.log4j.Logger;
@@ -6,6 +6,10 @@ import org.apache.log4j.Logger;
 import javax.servlet.*;
 import java.io.IOException;
 
+/**
+ * Set request and response character encoding to UTF-8.
+ * @author andrii
+ */
 public class EncodingFilter implements Filter {
 
     private final static Logger LOGGER = Logger.getLogger(EncodingFilter.class);

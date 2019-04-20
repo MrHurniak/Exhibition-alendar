@@ -1,10 +1,13 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
-import ua.training.model.entity.User;
-import ua.training.model.service.UserService;
+import ua.expo.model.entity.User;
+import ua.expo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Set in attribute all user tickets.
+ */
 public class UserTickets implements Command {
     private UserService userService;
 

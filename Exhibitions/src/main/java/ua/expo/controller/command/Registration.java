@@ -1,14 +1,21 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
 import org.apache.log4j.Logger;
-import ua.training.model.entity.enums.Role;
-import ua.training.model.exceptions.NotUniqEMailException;
-import ua.training.model.exceptions.NotUniqLoginException;
-import ua.training.model.service.UserService;
-import ua.training.model.service.util.Utils;
+import ua.expo.model.entity.enums.Role;
+import ua.expo.model.exceptions.NotUniqEMailException;
+import ua.expo.model.exceptions.NotUniqLoginException;
+import ua.expo.model.service.UserService;
+import ua.expo.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Read input data from registration page.
+ * If all data correct, try to add new user to DB via user service
+ * @see UserService#createUser(String, String, String, String, String)
+ * If some data (login, email) are not unique, then inform user about it.
+ *
+ */
 public class Registration implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(Registration.class);

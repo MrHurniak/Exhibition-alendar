@@ -1,11 +1,12 @@
-package ua.training.model.dao.impl;
+package ua.expo.model.dao.impl;
 
 import org.apache.log4j.Logger;
-import ua.training.model.dao.GenericDAO;
-import ua.training.model.dao.mapper.UserMapper;
-import ua.training.model.entity.User;
-import ua.training.model.exceptions.NotUniqEMailException;
-import ua.training.model.exceptions.NotUniqLoginException;
+import ua.expo.model.dao.GenericDAO;
+import ua.expo.model.dao.impl.sqlQueries.UserQueries;
+import ua.expo.model.dao.mapper.UserMapper;
+import ua.expo.model.entity.User;
+import ua.expo.model.exceptions.NotUniqEMailException;
+import ua.expo.model.exceptions.NotUniqLoginException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -15,6 +16,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class which introduce DAO to the users table.
+ * Uses instance of User classes
+ * @author andrii
+ */
 public class JDBCUserDao implements GenericDAO<User> {
 
     private final static Logger LOGGER = Logger.getLogger(JDBCUserDao.class);
@@ -28,12 +34,15 @@ public class JDBCUserDao implements GenericDAO<User> {
         LOGGER.debug("Creating instance of " + this.getClass().getName());
     }
 
+    /**
+     * @return instance of User class filled by data from row
+     * in DB with specified id
+     */
     @Override
     public User getById(int id) {
-        String query = "SELECT * FROM ExpositionProject.users where id=?;";
         ResultSet resultSet;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(UserQueries.USER_GET_BY_ID)) {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             LOGGER.info("Successful execution of select user with id=" + id);
@@ -47,11 +56,13 @@ public class JDBCUserDao implements GenericDAO<User> {
         return null;
     }
 
+    /**
+     * @return instance of User with specified login
+     */
     public User getByLogin(String login) {
-        String query = "SELECT * FROM ExpositionProject.users where BINARY users.login = ?;";
         ResultSet resultSet;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(UserQueries.USER_GET_BY_LOGIN)) {
             statement.setString(1, login);
             resultSet = statement.executeQuery();
             LOGGER.info("Search users with login=" + login);
@@ -65,16 +76,17 @@ public class JDBCUserDao implements GenericDAO<User> {
         return null;
     }
 
+    /**
+     * Write in DB data from User instance.
+     * Before write make verification to unique login and email.
+     * If verification failed, then will thrown proper exception
+     */
     @Override
     public void insert(User user) {
-        String query1 = "SELECT * FROM ExpositionProject.users where users.login = ?;";
-        String query2 = "SELECT * FROM ExpositionProject.users where users.email = ?;";
-        String query3 = "insert into ExpositionProject.users (name, surname, email, login, password, role) " +
-                "values (?, ?, ?, ?, ?, ?);";
         ResultSet resultSet;
         try (Connection connection = dataSource.getConnection()) {
             connection.setAutoCommit(false);
-            try (PreparedStatement statement = connection.prepareStatement(query1)) {
+            try (PreparedStatement statement = connection.prepareStatement(UserQueries.USER_GET_BY_LOGIN_NO_CASE)) {
                 statement.setString(1, user.getLogin());
                 resultSet = statement.executeQuery();
                 LOGGER.info("Search users with login=" + user.getLogin());
@@ -87,7 +99,7 @@ public class JDBCUserDao implements GenericDAO<User> {
                 connection.setAutoCommit(true);
                 throw e;
             }
-            try(PreparedStatement statement = connection.prepareStatement(query2)){
+            try(PreparedStatement statement = connection.prepareStatement(UserQueries.USER_GET_BY_EMAIL_NO_CASE)){
                 statement.setString(1, user.getEmail());
                 resultSet = statement.executeQuery();
                 LOGGER.info("Searching users with email=" + user.getEmail());
@@ -100,7 +112,7 @@ public class JDBCUserDao implements GenericDAO<User> {
                 connection.setAutoCommit(true);
                 throw e;
             }
-            try(PreparedStatement statement = connection.prepareStatement(query3)){
+            try(PreparedStatement statement = connection.prepareStatement(UserQueries.USER_INSERT)){
                 commonExtract(user, statement);
                 statement.execute();
                 LOGGER.info("Added new user");
@@ -118,12 +130,13 @@ public class JDBCUserDao implements GenericDAO<User> {
         }
     }
 
+    /**
+     * Update data about user in DB.
+     */
     @Override
     public void update(User user) {
-        String query = "update ExpositionProject.users set name=?, surname=?, email=?, " +
-                "login=?,password=?,role=? where id=?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(UserQueries.USER_UPDATE)) {
             commonExtract(user, statement);
             statement.setInt(7, user.getId());
             statement.executeUpdate();
@@ -134,11 +147,13 @@ public class JDBCUserDao implements GenericDAO<User> {
         LOGGER.info("Update user with id=" + user.getId() + ", login=" + user.getLogin());
     }
 
+    /**
+     * Delete information about user from DB
+     */
     @Override
     public void delete(User user) {
-        String query = "delete from ExpositionProject.users where id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(UserQueries.USER_DELETE)) {
             statement.setInt(1, user.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -148,13 +163,16 @@ public class JDBCUserDao implements GenericDAO<User> {
         LOGGER.warn("Performed delete of user with id=" + user.getId());
     }
 
+    /**
+     *
+     * @return list of User that contains in DB
+     */
     @Override
     public List<User> getAll() {
-        String query = "select * from ExpositionProject.users";
         ResultSet resultSet;
         List<User> list = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(UserQueries.USER_GET_ALL)) {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 list.add(userMapper.extractFromResultSet(resultSet));

@@ -1,5 +1,9 @@
-package ua.training.model.exceptions;
+package ua.expo.model.exceptions;
 
+/**
+ * Exception which marks that entered email already used
+ * @author andrii
+ */
 public class NotUniqEMailException extends RuntimeException {
     private String login;
     private String name;

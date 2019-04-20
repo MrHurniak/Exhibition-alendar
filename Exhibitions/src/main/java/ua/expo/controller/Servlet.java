@@ -1,8 +1,8 @@
-package ua.training.controller;
+package ua.expo.controller;
 
 import org.apache.log4j.Logger;
-import ua.training.controller.command.*;
-import ua.training.controller.command.Exception;
+import ua.expo.controller.command.*;
+import ua.expo.controller.command.Exception;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

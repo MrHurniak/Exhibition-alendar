@@ -1,4 +1,4 @@
-package ua.training.model.entity.enums;
+package ua.expo.model.entity.enums;
 
 public enum HallStatus {
     OK,

@@ -1,6 +1,6 @@
-package ua.training.model.entity;
+package ua.expo.model.entity;
 
-import ua.training.model.entity.enums.ExpositionStatus;
+import ua.expo.model.entity.enums.ExpositionStatus;
 
 import java.io.Serializable;
 import java.sql.Date;

@@ -1,14 +1,19 @@
-package ua.training.controller.filters;
+package ua.expo.controller.filters;
 
 import org.apache.log4j.Logger;
-import ua.training.controller.command.CommandUtil;
-import ua.training.model.entity.enums.Role;
+import ua.expo.controller.command.CommandUtil;
+import ua.expo.model.entity.enums.Role;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Check if user has role ADMIN.
+ * If it wrong, send redirect to forbidden page
+ * @author andrii
+ */
 public class AdminFilter implements Filter {
 
     private static final Logger LOGGER = Logger.getLogger(AdminFilter.class);

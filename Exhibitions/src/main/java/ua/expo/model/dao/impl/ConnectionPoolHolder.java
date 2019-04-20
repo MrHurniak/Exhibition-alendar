@@ -1,4 +1,4 @@
-package ua.training.model.dao.impl;
+package ua.expo.model.dao.impl;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
@@ -19,6 +19,13 @@ class ConnectionPoolHolder {
     private static final String PASSWORD = "database.password";
     private static volatile DataSource dataSource;
 
+    /**
+     * Create only one instance of DataSource class,
+     * which contains pool of connection to the DB.
+     * Parameters of DB connection contains in properties file.
+     * Constant DB_PROPERTIES point to this file.
+     * @return pool of connections
+     */
     static DataSource getDataSource() {
         if (dataSource == null) {
             synchronized (ConnectionPoolHolder.class) {

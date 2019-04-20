@@ -1,4 +1,4 @@
-package ua.expo.modelTests.serviceTests;
+package ua.expo.modelTests.serviceTests.UtilsTests;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -9,19 +9,19 @@ public class HashingTest {
     private static HashingPasswordUtil hashingUtil;
 
     @BeforeClass
-    public static void init(){
+    public static void init() {
         hashingUtil = new HashingPasswordUtil();
     }
 
     @Test
-    public void encryptingSHA256Test(){
+    public void encryptingSHA256Test() {
         String testWord = "hello";
         String hashWord = hashingUtil.encryptionSHA256(testWord);
         Assert.assertEquals(hashWord, hashingUtil.encryptionSHA256(testWord));
     }
 
     @Test
-    public void wrongEncryptingSHA256Test(){
+    public void wrongEncryptingSHA256Test() {
         String testWord = "hello";
         String wrongWord = "hello1";
         String hashWord = hashingUtil.encryptionSHA256(testWord);
@@ -29,14 +29,14 @@ public class HashingTest {
     }
 
     @Test
-    public void isEqualsSHA256Test(){
+    public void isEqualsSHA256Test() {
         String testWord = "hello";
         String hashWord = hashingUtil.encryptionSHA256(testWord);
         Assert.assertTrue(hashingUtil.isEqualsSHA256(testWord, hashWord));
     }
 
     @Test
-    public void isNowEqualsSHA256Test(){
+    public void isNowEqualsSHA256Test() {
         String testWord = "hello";
         String wrongWord = "bye";
         String hashWord = hashingUtil.encryptionSHA256(testWord);

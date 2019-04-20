@@ -1,4 +1,4 @@
-package ua.training.controller.listeners;
+package ua.expo.controller.listeners;
 
 import org.apache.log4j.Logger;
 
@@ -15,6 +15,10 @@ public class SessionListener implements HttpSessionListener {
         LOGGER.info("Session created");
     }
 
+    /**
+     * When users session ends, delete this user from set
+     * of active users
+     */
     @SuppressWarnings("unchecked")
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {

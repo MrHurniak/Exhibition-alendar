@@ -1,8 +1,8 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
-import ua.training.model.service.ExpositionService;
-import ua.training.model.service.HallsService;
-import ua.training.model.service.util.Utils;
+import ua.expo.model.service.ExpositionService;
+import ua.expo.model.service.HallsService;
+import ua.expo.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -10,6 +10,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * Processing administrator action under list of exposition.
+ * Receive parameters and pass it to exposition service.
+ * @author andrii
+ */
 public class AdminExpo implements Command {
     private HallsService hallsService;
     private ExpositionService expoService;

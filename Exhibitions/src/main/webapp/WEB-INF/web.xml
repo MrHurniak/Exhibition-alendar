@@ -6,83 +6,82 @@
         version="3.0">
 
 
-  <display-name>Archetype Created Web Application</display-name>
-  <session-config>
-    <session-timeout>5</session-timeout>
-  </session-config>
-  <servlet>
-    <servlet-name>ServletName</servlet-name>
-    <servlet-class>ua.training.controller.Servlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ServletName</servlet-name>
-    <url-pattern>/app/*</url-pattern>
-  </servlet-mapping>
+    <display-name>Archetype Created Web Application</display-name>
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
+    <servlet>
+        <servlet-name>ServletName</servlet-name>
+        <servlet-class>ua.expo.controller.Servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletName</servlet-name>
+        <url-pattern>/app/*</url-pattern>
+    </servlet-mapping>
 
-  <listener>
-    <listener-class>
-        ua.training.controller.listeners.SessionListener
-    </listener-class>
-  </listener>
+    <listener>
+        <listener-class>
+            ua.expo.controller.listeners.SessionListener
+        </listener-class>
+    </listener>
 
-  <welcome-file-list>
-  <welcome-file>index.jsp</welcome-file>
-</welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
-  <filter>
-    <filter-name>EncodingFilter</filter-name>
-    <filter-class>ua.training.controller.filters.EncodingFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>EncodingFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>ua.expo.controller.filters.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-  <filter>
-    <filter-name>LanguageFilter</filter-name>
-    <filter-class>ua.training.controller.filters.LocalizationFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>LanguageFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+    <filter>
+        <filter-name>LanguageFilter</filter-name>
+        <filter-class>ua.expo.controller.filters.LocalizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LanguageFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-  <filter>
-    <filter-name>AuthorizationFilter</filter-name>
-    <filter-class>ua.training.controller.filters.AuthorizationFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>AuthorizationFilter</filter-name>
-    <url-pattern>/app/r/*</url-pattern>
-  </filter-mapping>
+    <filter>
+        <filter-name>AuthorizationFilter</filter-name>
+        <filter-class>ua.expo.controller.filters.AuthorizationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthorizationFilter</filter-name>
+        <url-pattern>/app/r/*</url-pattern>
+    </filter-mapping>
 
-  <filter>
-    <filter-name>AdminFilter</filter-name>
-    <filter-class>ua.training.controller.filters.AdminFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>AdminFilter</filter-name>
-    <url-pattern>/app/r/admin/*</url-pattern>
-  </filter-mapping>
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>ua.expo.controller.filters.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/app/r/admin/*</url-pattern>
+    </filter-mapping>
 
-  <filter>
-    <filter-name>UserFilter</filter-name>
-    <filter-class>ua.training.controller.filters.UserFilter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>UserFilter</filter-name>
-    <url-pattern>/app/r/user/*</url-pattern>
-  </filter-mapping>
+    <filter>
+        <filter-name>UserFilter</filter-name>
+        <filter-class>ua.expo.controller.filters.UserFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserFilter</filter-name>
+        <url-pattern>/app/r/user/*</url-pattern>
+    </filter-mapping>
 
-  <error-page>
-    <exception-type>java.lang.Exception</exception-type>
-    <location>/WEB-INF/error.jsp</location>
-  </error-page>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/error.jsp</location>
+    </error-page>
 
-  <!--todo uncomment this-->
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/error.jsp</location>
-  </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/error.jsp</location>
+    </error-page>
 
 </web-app>

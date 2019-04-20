@@ -1,11 +1,16 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
-import ua.training.model.service.ExpositionService;
-import ua.training.model.service.HallsService;
-import ua.training.model.service.util.Utils;
+import ua.expo.model.service.ExpositionService;
+import ua.expo.model.service.HallsService;
+import ua.expo.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Set in request attribute with contains list of Exposition
+ * proper to parameters (Hall, page)
+ * @author andrii
+ */
 public class Exposition implements Command {
     private ExpositionService expoService;
     private HallsService hallsService;

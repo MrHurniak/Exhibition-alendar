@@ -1,4 +1,4 @@
-package ua.training.model.service.util;
+package ua.expo.model.service.util;
 
 public class Utils {
     public static boolean isNumber(String number){

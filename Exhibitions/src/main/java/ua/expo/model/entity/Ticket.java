@@ -1,4 +1,4 @@
-package ua.training.model.entity;
+package ua.expo.model.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

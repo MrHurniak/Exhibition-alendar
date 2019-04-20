@@ -1,6 +1,6 @@
-package ua.training.model.entity;
+package ua.expo.model.entity;
 
-import ua.training.model.entity.enums.Role;
+import ua.expo.model.entity.enums.Role;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,14 +1,15 @@
-package ua.training.model.dao.impl;
+package ua.expo.model.dao.impl;
 
 import org.apache.log4j.Logger;
-import ua.training.model.dao.GenericDAO;
-import ua.training.model.dao.mapper.ExhibitionHallMapper;
-import ua.training.model.dao.mapper.ExpositionMapper;
-import ua.training.model.dao.mapper.UserMapper;
-import ua.training.model.entity.ExhibitionHall;
-import ua.training.model.entity.Exposition;
-import ua.training.model.entity.Ticket;
-import ua.training.model.entity.User;
+import ua.expo.model.dao.GenericDAO;
+import ua.expo.model.dao.impl.sqlQueries.TicketsQueries;
+import ua.expo.model.dao.mapper.ExhibitionHallMapper;
+import ua.expo.model.dao.mapper.ExpositionMapper;
+import ua.expo.model.dao.mapper.UserMapper;
+import ua.expo.model.entity.ExhibitionHall;
+import ua.expo.model.entity.Exposition;
+import ua.expo.model.entity.Ticket;
+import ua.expo.model.entity.User;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -20,6 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class which introduce DAO to the tickets table.
+ * Uses instance of Ticket classes
+ * @author andrii
+ */
 public class JDBCTicketDao implements GenericDAO<Ticket> {
 
     private final static Logger LOGGER = Logger.getLogger(JDBCTicketDao.class);
@@ -37,11 +43,14 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         LOGGER.debug("Creating instance of " + this.getClass().getName());
     }
 
+    /**
+     * White data from Ticket instance to
+     * tickets table
+     */
     @Override
     public void insert(Ticket ticket) {
-        String query = "insert into ExpositionProject.tickets (user_id, exposition_id, count) values (?, ?, ?);";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(TicketsQueries.TICKET_INSERT)) {
             statement.setInt(1, ticket.getUser().getId());
             statement.setInt(2, ticket.getExposition().getId());
             statement.setInt(3, ticket.getCount());
@@ -56,17 +65,16 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
                 + ", count=" + ticket.getCount());
     }
 
-
+    /**
+     *
+     * @return instance of Ticket class which introduce specified by id
+     * row in tuckets table
+     */
     @Override
     public Ticket getById(int id) {
-        String query = "SELECT * FROM ExpositionProject.tickets " +
-                "join users on tickets.user_id = users.id " +
-                "join expositions on tickets.exposition_id = expositions.id " +
-                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where tickets.id = ?;";
         ResultSet resultSet;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(TicketsQueries.TICKET_GET_BY_ID)) {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             LOGGER.info("Successful execution of select query by ticket id=" + id);
@@ -88,11 +96,14 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         return null;
     }
 
+    /**
+     * Update proper row in tickets table.
+     * Use ticket id as pointer
+     */
     @Override
     public void update(Ticket ticket) {
-        String query = "update ExpositionProject.tickets set user_id = ?, exposition_id = ? where id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(TicketsQueries.TICKET_UPDATE)) {
             statement.setInt(1, ticket.getUser().getId());
             statement.setInt(2, ticket.getExposition().getId());
             statement.setInt(3, ticket.getId());
@@ -105,11 +116,13 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
                 + ticket.getUser().getId() + "expo id=" + ticket.getExposition().getId());
     }
 
+    /**
+     * Delete proper row in tickets table
+     */
     @Override
     public void delete(Ticket ticket) {
-        String query = "delete from ExpositionProject.tickets where id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(TicketsQueries.TICKET_DELETE)) {
             statement.setInt(1, ticket.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -119,6 +132,11 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         LOGGER.warn("Performed delete of ticket with id=" + ticket.getId());
     }
 
+    /**
+     *
+     * @return list of tickets which linked with
+     * specified User
+     */
     public List<Ticket> getUserTickets(User user) {
         List<Ticket> ticketList = new ArrayList<>();
         Map<Integer, Exposition> expoMap = new HashMap<>();
@@ -126,16 +144,9 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         Exposition expoTemp;
         ExhibitionHall hallTemp;
         int count;
-
         ResultSet resultSet;
-        String query = "SELECT  user_id, exposition_id, sum(count) as count, users.*, expositions.*, exhibitionHalls.* " +
-                "FROM ExpositionProject.tickets join users on tickets.user_id = users.id " +
-                "join expositions on tickets.exposition_id = expositions.id " +
-                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id " +
-                "where tickets.user_id = ? " +
-                "group by exposition_id ;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(TicketsQueries.TICKET_GET_USER_TICKETS)) {
             statement.setInt(1, user.getId());
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -161,6 +172,10 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         }
     }
 
+    /**
+     *
+     * @return list of all tickets in DB
+     */
     @Override
     public List<Ticket> getAll() {
         List<Ticket> ticketList = new ArrayList<>();
@@ -171,12 +186,8 @@ public class JDBCTicketDao implements GenericDAO<Ticket> {
         Exposition expo;
         ExhibitionHall hall;
         ResultSet resultSet;
-        String query = "SELECT * FROM ExpositionProject.tickets " +
-                "join users on tickets.user_id = users.id " +
-                "join expositions on tickets.exposition_id = expositions.id " +
-                "join exhibitionHalls on expositions.hall_id = exhibitionHalls.id;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+             PreparedStatement statement = connection.prepareStatement(TicketsQueries.TICKET_GET_ALL)) {
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 user = userMapper.extractFromResultSet(resultSet);

@@ -1,13 +1,18 @@
-package ua.training.controller.filters;
+package ua.expo.controller.filters;
 
 import org.apache.log4j.Logger;
-import ua.training.controller.command.CommandUtil;
+import ua.expo.controller.command.CommandUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Check if user contains in set of active user.
+ * If wrong, then send redirect to login page
+ * @author andrii
+ */
 public class AuthorizationFilter implements Filter {
 
     private static final Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);

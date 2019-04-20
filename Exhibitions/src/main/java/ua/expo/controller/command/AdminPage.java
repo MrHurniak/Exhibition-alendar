@@ -1,9 +1,12 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
-import ua.training.model.service.HallsService;
+import ua.expo.model.service.HallsService;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Set as attribute statistics about users, halls and expositions
+ */
 public class AdminPage implements Command{
     @Override
     public String execute(HttpServletRequest request) {

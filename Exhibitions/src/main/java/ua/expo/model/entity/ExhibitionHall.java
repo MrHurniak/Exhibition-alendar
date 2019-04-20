@@ -1,6 +1,6 @@
-package ua.training.model.entity;
+package ua.expo.model.entity;
 
-import ua.training.model.entity.enums.HallStatus;
+import ua.expo.model.entity.enums.HallStatus;
 
 import java.io.Serializable;
 import java.util.Objects;

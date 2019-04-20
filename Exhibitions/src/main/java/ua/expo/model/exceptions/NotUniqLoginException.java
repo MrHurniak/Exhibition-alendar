@@ -1,5 +1,9 @@
-package ua.training.model.exceptions;
+package ua.expo.model.exceptions;
 
+/**
+ * Exception wich marks that entered login already exist in DB
+ * @author andrii
+ */
 public class NotUniqLoginException extends RuntimeException {
     private String login;
     private String name;

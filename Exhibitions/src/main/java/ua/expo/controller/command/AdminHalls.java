@@ -1,13 +1,18 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
-import ua.training.model.service.HallsService;
-import ua.training.model.service.util.Utils;
+import ua.expo.model.service.HallsService;
+import ua.expo.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * Processing administrator action under list of exhibition halls.
+ * Receive parameters and pass it to exhibition hall service.
+ * @author andrii
+ */
 public class AdminHalls implements Command {
     private Map<String, Consumer<HttpServletRequest>> commands;
     private HallsService hallsService;
@@ -21,7 +26,6 @@ public class AdminHalls implements Command {
     }
     @Override
     public String execute(HttpServletRequest request) {
-        //todo log
         Consumer<HttpServletRequest> command = commands.get(request.getParameter("command"));
         request.setAttribute("adminPage","/WEB-INF/admin/adminHalls.jsp");
         if(command != null){

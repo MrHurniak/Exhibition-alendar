@@ -1,13 +1,17 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
 import org.apache.log4j.Logger;
-import ua.training.model.entity.User;
-import ua.training.model.service.UserService;
+import ua.expo.model.entity.User;
+import ua.expo.model.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
-
+/**
+ * Read parameters from login page. If such login contains in DB,
+ * then do check password.
+ * If any data are invalid then  return back to the login page
+ */
 public class LogIn implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(LogIn.class);
@@ -26,8 +30,7 @@ public class LogIn implements Command {
             return "/login.jsp";
         }
         Optional<User> user = userService.getByLogin(login);
-        //todo don`t forgot to uncomment and rewrite passwords fo users
-        if (user.isPresent() /*&& userService.checkPassword(user.get(), password)*/) {
+        if (user.isPresent() && userService.checkPassword(user.get(), password)) {
             if (CommandUtil.containsInLogged(request, login)) {
                 LOGGER.warn("Logged user try to login. User login="
                         + request.getSession().getAttribute("login"));

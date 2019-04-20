@@ -1,4 +1,4 @@
-package ua.expo.modelTests.serviceTests;
+package ua.expo.modelTests.serviceTests.UtilsTests;
 
 import org.junit.Assert;
 import org.junit.Test;

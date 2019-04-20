@@ -1,12 +1,16 @@
-package ua.training.controller.command;
+package ua.expo.controller.command;
 
 import org.apache.log4j.Logger;
-import ua.training.model.entity.Exposition;
-import ua.training.model.service.ExpositionService;
-import ua.training.model.service.util.Utils;
+import ua.expo.model.entity.Exposition;
+import ua.expo.model.service.ExpositionService;
+import ua.expo.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Calculate total price of tickets and send redirect to payment page
+ * @author andrii
+ */
 public class Buy implements Command {
 
     private static final Logger LOGGER = Logger.getLogger(Buy.class);

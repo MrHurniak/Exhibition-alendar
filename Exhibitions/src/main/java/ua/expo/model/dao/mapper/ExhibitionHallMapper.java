@@ -1,7 +1,7 @@
-package ua.training.model.dao.mapper;
+package ua.expo.model.dao.mapper;
 
-import ua.training.model.entity.ExhibitionHall;
-import ua.training.model.entity.enums.HallStatus;
+import ua.expo.model.entity.ExhibitionHall;
+import ua.expo.model.entity.enums.HallStatus;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,8 +1,8 @@
-package ua.training.model.dao.mapper;
+package ua.expo.model.dao.mapper;
 
 
-import ua.training.model.entity.Exposition;
-import ua.training.model.entity.enums.ExpositionStatus;
+import ua.expo.model.entity.Exposition;
+import ua.expo.model.entity.enums.ExpositionStatus;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,9 +24,12 @@ public class ExpositionMapper implements ObjectMapper<Exposition> {
         return instance;
     }
 
+    /**
+     * Extract Exposition instance from ResultSet,
+     * but this instance do not contains link to the ExhibitionHall instance
+     */
     @Override
     public Exposition extractFromResultSet(ResultSet resultSet) throws SQLException {
-        //todo return without ExhibitionHall
         return new Exposition.Builder()
                 .setId(resultSet.getInt("expositions.id"))
                 .setTheme(resultSet.getString("expositions.theme"))

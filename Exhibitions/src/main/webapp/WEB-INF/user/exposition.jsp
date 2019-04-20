@@ -32,12 +32,9 @@
                             <i class="fas fa-circle mr-1 circle"></i><c:out value="${hall.name}"/>
                         </a>
                     </c:forEach>
-                    <%--todo how to hide and show then--%>
-                    <c:if test="${true}">
-                        <a href="${pageContext.request.contextPath}/app/r/exposition">
-                            </i><fmt:message key="exposition.show.all" bundle="${link}"/>
-                        </a>
-                    </c:if>
+                    <a href="${pageContext.request.contextPath}/app/r/exposition">
+                        </i><fmt:message key="exposition.show.all" bundle="${link}"/>
+                    </a>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-8 exposition-list">
