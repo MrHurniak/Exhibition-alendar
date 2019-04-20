@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<h3>Expositions editor</h3>
+<h3 class="text-center my-2 font-weight-bold"><u>Expositions editor</u></h3>
 <p>Create new exposition</p>
 <c:if test="${not empty sessionScope['expo_message']}">
     <h3><c:out value="${sessionScope['expo_message']}"/></h3>

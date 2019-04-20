@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<h3>Halls redactor</h3>
+<h3 class="text-center my-2 font-weight-bold"><u>Halls redactor</u></h3>
 <p>Create new</p>
 <form action="${pageContext.request.contextPath}/app/r/admin/halls">
     <input type="text" hidden name="command" value="add"/>
@@ -18,7 +18,7 @@
 <c:forEach var="hall" items="${requestScope['halls']}">
     <hr>
     <h3><c:out value="${hall.name}"/></h3>
-    <button data-toggle="collapse" data-target="#demo${hall.id}">Update</button>
+    <button data-toggle="collapse" class="btn btn-link mb-3" data-target="#demo${hall.id}">Update</button>
     <div id="demo${hall.id}" class="collapse">
         <form action="${pageContext.request.contextPath}/app/r/admin/halls">
             <input type="text" hidden name="command" value="update"/>

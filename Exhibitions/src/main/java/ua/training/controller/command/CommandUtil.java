@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 public class CommandUtil {
 
-    public static boolean isRole(HttpServletRequest request, Role role) {
+    public static boolean hasRole(HttpServletRequest request, Role role) {
         Object roleObj = request.getSession().getAttribute("role");
         return role == (roleObj != null ? Role.valueOf(roleObj.toString()) : Role.UNKNOWN);
     }
@@ -19,6 +19,14 @@ public class CommandUtil {
         if (login == null) {
             return false;
         }
+        HashSet<String> loggedUsers = (HashSet<String>) request.getSession()
+                .getServletContext().getAttribute("loggedUsers");
+        loggedUsers.forEach(System.out::println);
+        return  loggedUsers.contains(login);
+    }
+
+    @SuppressWarnings("unchecked")
+    static boolean containsInLogged(HttpServletRequest request, String login){
         HashSet<String> loggedUsers = (HashSet<String>) request.getSession()
                 .getServletContext().getAttribute("loggedUsers");
         return loggedUsers.stream().anyMatch(login::equals);

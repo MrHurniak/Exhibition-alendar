@@ -11,7 +11,7 @@ public class LogOut implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         if(!CommandUtil.isUserLogged(request)){
-            LOGGER.warn("Unlogged user try to logOut");
+            LOGGER.warn("Unlogged user try to log out");
             return "/WEB-INF/error.jsp";
         }
         String login = (String) request.getSession().getAttribute("login");

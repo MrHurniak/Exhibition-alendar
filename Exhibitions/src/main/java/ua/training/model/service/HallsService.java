@@ -4,7 +4,6 @@ import ua.training.model.dao.DaoFactory;
 import ua.training.model.dao.impl.JDBCExhibitionHallDao;
 import ua.training.model.dao.impl.JDBCExpositionDao;
 import ua.training.model.entity.ExhibitionHall;
-import ua.training.model.service.util.Utils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -36,37 +35,28 @@ public class HallsService {
 
 
     public void add(String name, String info) {
-        if (name != null && info != null) {
-            ExhibitionHall hall = new ExhibitionHall();
-            hall.setName(name);
-            hall.setInformation(info);
-            hallDao.insert(hall);
-            updateList(hall);
-        }
+        hallDao.insert(new ExhibitionHall.Builder()
+                .setName(name)
+                .setInformation(info).build());
+        updateList();
     }
 
     public void delete(String idStr) {
-        if (Utils.isNumber(idStr)) {
-            int id = Integer.parseInt(idStr);
-            if (id < 0) return;
-            ExhibitionHall hall = new ExhibitionHall();
-            hall.setId(id);
-            hallDao.saveDelete(hall);
-            updateList(hall);
-            rowsByHall.remove(hall.getId());
-        }
+        int id = Integer.parseInt(idStr);
+        if (id < 0) return;
+        hallDao.saveDelete(new ExhibitionHall.Builder().setId(id).build());
+        updateList(id);
+        rowsByHall.remove(id);
     }
 
     public void update(String idStr, String name, String info) {
-        if (name != null && info != null && Utils.isNumber(idStr)) {
-            ExhibitionHall hall = new ExhibitionHall.Builder()
-                    .setId(Integer.parseInt(idStr))
-                    .setName(name)
-                    .setInformation(info)
-                    .build();
-            hallDao.update(hall);
-            updateList(hall);
-        }
+        ExhibitionHall hall = new ExhibitionHall.Builder()
+                .setId(Integer.parseInt(idStr))
+                .setName(name)
+                .setInformation(info)
+                .build();
+        hallDao.update(hall);
+        updateList(hall.getId());
     }
 
     public List<ExhibitionHall> getHalls() {
@@ -86,12 +76,12 @@ public class HallsService {
         return rowsByHall.get(-1);
     }
 
-    void updateList(ExhibitionHall hall) {
-        this.updateList(hall.getId());
+    void updateList() {
+        halls = hallDao.getAllOK();
     }
 
-    void updateList(int hallId){
-        halls = hallDao.getAllOK();
+    void updateList(int hallId) {
+        this.updateList();
         rowsByHall.put(hallId, expoDao.getNumberRows(hallId));
         rowsByHall.put(-1, expoDao.getNumberRows());
     }

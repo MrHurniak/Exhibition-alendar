@@ -16,7 +16,8 @@ public class UserTickets implements Command {
     public String execute(HttpServletRequest request) {
         User user = userService.getByLogin(
                 (String)request.getSession().getAttribute("login")).get();
-        request.setAttribute("tickets",userService.getUserTickets(user));
+        request.setAttribute("tickets", userService.getUserTickets(user));
+        request.setAttribute("user", user);
         return "/WEB-INF/user/tickets.jsp";
     }
 }

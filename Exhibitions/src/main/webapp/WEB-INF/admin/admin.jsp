@@ -11,8 +11,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png" sizes="96x96">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/paint-board-and-brush.png"
+          sizes="96x96">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/abminStyle.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <jsp:include page="../../bootstrap.jsp"/>
@@ -27,27 +29,29 @@
                 <div>
                     <h6 class="px-3 pt-3">
                         <a href="${pageContext.request.contextPath}/index.jsp">
-                            <img src="${pageContext.request.contextPath}/img/paint-board-and-brush.svg" class="mx-5" alt="Logo" style="width:40px;">
+                            <img src="${pageContext.request.contextPath}/img/paint-board-and-brush.svg" class="mx-5"
+                                 alt="Logo" style="width:40px;">
                         </a>
                         <fmt:message key="admin.page" bundle="${link}"/>
-                        <a data-toggle="collapse" class="px-1 d-inline d-md-none text-white" href="#" data-target=".collapse">
+                        <a data-toggle="collapse" class="px-1 d-inline d-md-none text-white" href="#"
+                           data-target=".collapse">
                             <i class="fa fa-bars"></i>
                         </a>
                     </h6>
                     <ul class="nav flex-column flex-nowrap text-truncate">
                         <li class="nav-item">
                             <a class="nav-link active" href="${pageContext.request.contextPath}/app/r/admin/stat">
-                                Statistics
+                                <fmt:message key="admin.statistics" bundle="${link}"/>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/app/r/admin/halls">
-                                Halls
+                                <fmt:message key="admin.halls" bundle="${link}"/>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/app/r/admin/expositions">
-                                Expositions
+                                <fmt:message key="admin.expositions" bundle="${link}"/>
                             </a>
                         </li>
                     </ul>
@@ -62,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-10 p-0">
+        <div class="col-10 p-0 pt-3">
             <jsp:include page="${adminPage}"/>
         </div>
     </div>

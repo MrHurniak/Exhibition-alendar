@@ -5,6 +5,7 @@ import ua.training.model.entity.enums.Role;
 import ua.training.model.exceptions.NotUniqEMailException;
 import ua.training.model.exceptions.NotUniqLoginException;
 import ua.training.model.service.UserService;
+import ua.training.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,7 +35,7 @@ public class Registration implements Command {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String login = request.getParameter("login");
-        if (name == null || surname == null || login == null || email == null) {
+        if (!Utils.isNotNull(name, surname, email, login, password)) {
             return "/registration.jsp";
         }
         try {
@@ -50,7 +51,7 @@ public class Registration implements Command {
         } catch (NotUniqEMailException e) {
             request.setAttribute("message", "not.uniq.email");
             return setAttributes(request, name, surname, email, login);
-        } catch (IllegalArgumentException e) {
+        } catch (java.lang.Exception e) {
             request.setAttribute("message", "registration.invalid.data");
             return setAttributes(request, name, surname, email, login);
         }

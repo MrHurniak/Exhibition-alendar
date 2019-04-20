@@ -22,7 +22,7 @@ public class AdminFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if(CommandUtil.isRole(request, Role.ADMIN)) {
+        if(CommandUtil.hasRole(request, Role.ADMIN)) {
             LOGGER.debug("Admin came to the admin page.");
             filterChain.doFilter(servletRequest, servletResponse);
             return;

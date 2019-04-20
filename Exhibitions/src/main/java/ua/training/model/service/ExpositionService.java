@@ -30,7 +30,7 @@ public class ExpositionService {
             postOnPage = Integer.parseInt(properties.getProperty("post.on.page"));
             LOGGER.debug("Load count of post on page from property file. Value=" + postOnPage);
         } catch (IOException e){
-            LOGGER.warn("");
+            LOGGER.warn("Cannot load settings file or count value is invalid");
             postOnPage = 3;
         }
     }
@@ -77,14 +77,8 @@ public class ExpositionService {
         return noOfPages;
     }
 
-    public void add(String theme, String shortDesc, String fullDesc, String priceStr, String date, String date_to,
-                    String hallIdSrt) {
-        if (!Utils.isNotNull(theme, shortDesc)) {
-            throw new IllegalArgumentException("Theme and short description must be filled!");
-        }
-        if (!Utils.isNumber(priceStr) || !Utils.isNumber(hallIdSrt)) {
-            throw new IllegalArgumentException("Invalid data!");
-        }
+    public void add(String theme, String shortDesc, String fullDesc, String priceStr,
+                    String date, String date_to, String hallIdSrt) {
         int price = Integer.parseInt(priceStr);
         int hallId = Integer.parseInt(hallIdSrt);
         if (hallId < 0 || price < 0) {
@@ -95,7 +89,6 @@ public class ExpositionService {
         if(date_start.after(date_end)){
             throw new IllegalArgumentException("Wrong date order!");
         }
-
         Exposition.Builder builder = new Exposition.Builder();
         builder.setTheme(theme)
                 .setShortDescription(shortDesc)
@@ -109,7 +102,6 @@ public class ExpositionService {
     }
 
     public void delete(String expoIdStr) {
-        if (!Utils.isNumber(expoIdStr)) return;
         int expoId = Integer.parseInt(expoIdStr);
         if (expoId < 0) return;
         expoDao.saveDelete(new Exposition.Builder().setId(expoId).build());
@@ -118,25 +110,17 @@ public class ExpositionService {
     
     public void update(String expoIdStr, String theme, String shortDesc,
                        String fullDesc, String priceStr, String date, String date_to, String hallIdSrt) {
-        if (!Utils.isNotNull(theme, shortDesc, date)) {
-            return;
-        }
-        if (!Utils.isNumber(expoIdStr) || !Utils.isNumber(priceStr) || !Utils.isNumber(hallIdSrt)) {
-            return;
-        }
         int price = Integer.parseInt(priceStr);
         int expoId = Integer.parseInt(expoIdStr);
         int hallId = Integer.parseInt(hallIdSrt);
         if (hallId < 0 || price < 0 || expoId < 0) {
             return;
         }
-
         Date date_start = Date.valueOf(date);
         Date date_end = Date.valueOf(date_to);
         if(date_start.after(date_end)){
             throw new IllegalArgumentException("Wrong date order!");
         }
-
         Exposition.Builder builder = new Exposition.Builder();
         builder.setId(expoId)
                 .setDate(date_start)
@@ -158,13 +142,5 @@ public class ExpositionService {
             return expoDao.getById(Integer.parseInt(expoId));
         }
         return null;
-    }
-
-    public int getPostOnPage() {
-        return postOnPage;
-    }
-
-    public void setPostOnPage(int postOnPage) {
-        this.postOnPage = postOnPage;
     }
 }

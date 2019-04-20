@@ -2,6 +2,7 @@ package ua.training.controller.command;
 
 import ua.training.model.service.ExpositionService;
 import ua.training.model.service.HallsService;
+import ua.training.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
@@ -49,9 +50,13 @@ public class AdminExpo implements Command {
         String date_to = request.getParameter("date_to");
         String hallId = request.getParameter("hall_id");
         try {
-            expoService.add(theme, shortDescription, fullDescription,
-                    price, date, date_to, hallId);
-            request.getSession().setAttribute("expo_message", "Exposition added");
+            if(Utils.isNotNull(theme, shortDescription, date, date_to)
+                    && Utils.isNumber(hallId)
+                    && Utils.isNumber(price)) {
+                expoService.add(theme, shortDescription, fullDescription,
+                        price, date, date_to, hallId);
+                request.getSession().setAttribute("expo_message", "Exposition added");
+            }
         } catch (IllegalArgumentException e){
             request.getSession().setAttribute("expo_message", e.getMessage());
         }
@@ -59,7 +64,9 @@ public class AdminExpo implements Command {
 
     private void delete(HttpServletRequest request) {
         String expoId = request.getParameter("expo_id");
-        expoService.delete(expoId);
+        if(Utils.isNumber(expoId)) {
+            expoService.delete(expoId);
+        }
     }
 
     private void update(HttpServletRequest request) {
@@ -72,9 +79,12 @@ public class AdminExpo implements Command {
         String date_to = request.getParameter("date_to");
         String hallId = request.getParameter("hall_id");
         try {
-            expoService.update(expoId, theme, shortDescription, fullDescription,
-                    price, date, date_to, hallId);
-            request.getSession().setAttribute("expo_message", "Exposition changed");
+            if (Utils.isNotNull(theme, shortDescription, date, date_to)
+                    && Utils.isNumber(price) && Utils.isNumber(hallId) && Utils.isNumber(expoId)) {
+                expoService.update(expoId, theme, shortDescription, fullDescription,
+                        price, date, date_to, hallId);
+                request.getSession().setAttribute("expo_message", "Exposition changed");
+            }
         } catch (IllegalArgumentException e){
             request.getSession().setAttribute("expo_message", e.getMessage());
         }

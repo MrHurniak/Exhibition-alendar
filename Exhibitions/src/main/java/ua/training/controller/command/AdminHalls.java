@@ -1,6 +1,7 @@
 package ua.training.controller.command;
 
 import ua.training.model.service.HallsService;
+import ua.training.model.service.util.Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -29,25 +30,30 @@ public class AdminHalls implements Command {
             return "redirect:/app/r/admin/halls";
         }
         request.setAttribute("halls", hallsService.getHalls());
-
         return "/WEB-INF/admin/admin.jsp";
     }
 
     private void add(HttpServletRequest request){
         String name = request.getParameter("name");
         String info = request.getParameter("information");
-        hallsService.add(name, info);
+        if(Utils.isNotNull(name, info)) {
+            hallsService.add(name, info);
+        }
     }
 
     private void delete(HttpServletRequest request){
         String idStr = request.getParameter("id");
-        hallsService.delete(idStr);
+        if(Utils.isNumber(idStr)) {
+            hallsService.delete(idStr);
+        }
     }
 
     private void update(HttpServletRequest request){
         String idStr = request.getParameter("id");
         String name = request.getParameter("name");
         String info = request.getParameter("information");
-        hallsService.update(idStr, name, info);
+        if(Utils.isNotNull(name, info) && Utils.isNumber(idStr)) {
+            hallsService.update(idStr, name, info);
+        }
     }
 }

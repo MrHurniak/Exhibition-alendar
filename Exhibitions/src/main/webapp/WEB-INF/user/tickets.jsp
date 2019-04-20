@@ -25,11 +25,14 @@
         <div class="row  justify-content-center">
             <div class="col-xs-12 col-sm-8 p-2">
                 <h3><fmt:message key="user.tickets.bought" bundle="${link}"/></h3>
+                <c:set value="${requestScope['user']}" var="user"/>
+                <h4><fmt:message key="tickets.user" bundle="${link}"/>: <b><c:out value="${user.name}"/> <c:out
+                        value="${user.surname}"/></b></h4>
                 <c:forEach items="${requestScope['tickets']}" var="elem">
                     <div class="card my-1">
                         <div class="card-body">
-                            <h5 class="card-title" style="text-align: left;"><a href="#"><c:out
-                                    value="${elem.exposition.theme}"/></a></h5>
+                            <h5 class="card-title" style="text-align: left;"><c:out
+                                    value="${elem.exposition.theme}"/></h5>
                             <p class="card-text"><c:out value="${elem.exposition.shortDescription}"/></p>
                             <c:set var="status" value="${elem.exposition.expositionStatus}"/>
                             <c:if test="${status eq 'DELETED'}">

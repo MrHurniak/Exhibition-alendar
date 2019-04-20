@@ -44,11 +44,6 @@ public class UserService {
 
     public void createUser(String name, String surname, String email, String login, String password){
         LOGGER.info("Request to create new user with login=" + login);
-        if(!Utils.isNotNull(name, surname, email, login, password)){
-            //todo log
-            throw new IllegalArgumentException("All parameters must be filled!");
-        }
-
         User.Builder builder = new User.Builder();
         User user = builder.setName(name)
                 .setSurname(surname)

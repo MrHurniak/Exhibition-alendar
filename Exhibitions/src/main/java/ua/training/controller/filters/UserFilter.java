@@ -22,7 +22,7 @@ public class UserFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        if(CommandUtil.isRole(request, Role.USER)) {
+        if(CommandUtil.hasRole(request, Role.USER)) {
             LOGGER.debug("User came to the user page");
             filterChain.doFilter(servletRequest, servletResponse);
             return;
